@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="redirect()"
+    tools:context=".ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/text_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal"
+        android:text="TopRated Movies"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_home2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal"
+        android:text="Popular Movies"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <HorizontalScrollView
+        android:id="@+id/hs1"
+        android:layout_width="412dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/imageButton1"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--                tools:src="@tools:sample/avatars"-->
+
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintStart_toEndOf="@+id/imageButton1"
+                app:layout_constraintTop_toTopOf="@+id/imageButton1" />
+            <!--                tools:src="@tools:sample/avatars" />-->
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintStart_toEndOf="@+id/imageButton2"
+                app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+            <!--                tools:src="@tools:sample/avatars" />-->
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintStart_toEndOf="@+id/imageButton3"
+                app:layout_constraintTop_toTopOf="@+id/imageButton3" />
+            <!--                tools:src="@tools:sample/avatars" />-->
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintStart_toEndOf="@+id/imageButton4"
+                app:layout_constraintTop_toTopOf="@+id/imageButton4" />
+            <!--                tools:src="@tools:sample/avatars" />-->
+
+            <ImageButton
+                android:id="@+id/imageButton6"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/movie_placeholder"
+                app:layout_constraintStart_toEndOf="@+id/imageButton5"
+                app:layout_constraintTop_toTopOf="@+id/imageButton5" />
+            <!--                tools:src="@tools:sample/avatars" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btn9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        app:layout_constraintBottom_toTopOf="@id/text_home2"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="504dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/text_home2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+
+    <!--    <HorizontalScrollView-->
+    <!--        android:id="@+id/hs2"-->
+    <!--        android:layout_width="412dp"-->
+    <!--        android:layout_height="160dp"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_marginRight="5dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/hs1-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/hs1-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/hs1"-->
+    <!--        tools:layout_editor_absoluteY="469dp">-->
+
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="match_parent">-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton11"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:layout_marginTop="4dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintHorizontal_bias="0.0"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton12"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/imageButton11"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/imageButton11" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton13"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/imageButton12"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/imageButton12" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton14"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/imageButton13"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/imageButton13" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton15"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/imageButton14"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/imageButton14" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/imageButton16"-->
+    <!--                android:layout_width="110dp"-->
+    <!--                android:layout_height="160dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginLeft="5dp"-->
+    <!--                android:src="@drawable/movie_placeholder"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/imageButton15"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/imageButton15" />-->
+    <!--            &lt;!&ndash;                tools:src="@tools:sample/avatars" />&ndash;&gt;-->
+
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </HorizontalScrollView>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
