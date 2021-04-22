@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     private static JSONArray jsonArray;
 
     public String[] urls=new String[6];
+    public String[] ids=new String[6];
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -58,13 +59,9 @@ public class HomeFragment extends Fragment {
         //urls = new String[6];
 
         //loadData();
-        getDataV();
-        //Log.d("array here", String.valueOf(jsonArray));
-        Log.d("ohhoh", String.valueOf(urls[0]));
+        getDataV(root);
 
-        RecyclerView list=(RecyclerView) root.findViewById(R.id.list);
-        list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        list.setAdapter(new HorizontalAdapter(urls,getContext()));
+
 
 //        try {
 //
@@ -98,7 +95,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void getDataV() {
+    public void getDataV(View root) {
         String url="https://api.themoviedb.org/3/movie/popular?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
         RequestQueue que = Volley.newRequestQueue(getContext());
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -119,8 +116,16 @@ public class HomeFragment extends Fragment {
                 urls[3]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(3).getString("poster_path");
                 urls[4]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(4).getString("poster_path");
                 urls[5]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(5).getString("poster_path");
-                popularmovies();
 
+                for(int i=0;i<6;i++){
+                    ids[i]=respArray.getJSONObject(i).getString("id");
+                }
+
+//                popularmovies();
+                RecyclerView list=(RecyclerView) root.findViewById(R.id.list);
+                list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+                Log.d("Sending to adapter", ids[0]+ " " + ids[1] + " " + ids[2] + " " +  ids[3] + " "+ ids[4] + " "+ids[5]);
+                list.setAdapter(new HorizontalAdapter(ids,urls,getContext()));
 
                 //Log.d("RespArray",jsonArray.toString(4));
             } catch (JSONException e) {

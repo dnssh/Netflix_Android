@@ -141,14 +141,14 @@
         tools:layout_editor_absoluteY="504dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:id="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/text_home2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="457dp" />
+        app:layout_constraintEnd_toEndOf="parent"></androidx.recyclerview.widget.RecyclerView>
+<!--        tools:layout_editor_absoluteX="10dp"-->
+<!--        tools:layout_editor_absoluteY="457dp" />-->
 
 
     <!--    <HorizontalScrollView-->

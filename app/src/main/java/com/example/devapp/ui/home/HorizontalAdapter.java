@@ -1,6 +1,7 @@
 package com.example.devapp.ui.home;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,12 @@ import java.util.List;
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.HorizontalViewHolder>{
 
     private final Context context;
-    private  String[] items;
-    private ImageView iv;
+    private String[] items;
+    private String[] ids;
+    private String mediatype;
 
-    public HorizontalAdapter(String[] items,Context context) {
+    public HorizontalAdapter(String[] ids, String[] items, Context context) {
+        this.ids=ids;
         this.items = items;
         this.context=context;
     }
@@ -44,12 +47,13 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
 
         //holder.txt.setText(items[position]);
         //Picasso.with(iv.getContext()).load(items[position]).into(iv);
+        Log.d("Slider ", position + " " + ids[position]);
         Picasso.with(context).load(items[position]).into(holder.iv);
     }
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return ids.length;
     }
 
     public class HorizontalViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +63,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
         public HorizontalViewHolder(@NonNull View itemView) {
             super(itemView);
             iv= (ImageView) itemView.findViewById(R.id.imageitem);
+
         }
 
     }
