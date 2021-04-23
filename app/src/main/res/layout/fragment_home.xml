@@ -70,7 +70,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <!--                tools:src="@tools:sample/avatars"-->
+            <!--tools:src="@tools:sample/avatars"-->
 
 
             <ImageButton
@@ -146,7 +146,9 @@
         android:id="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/text_home2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 <!--        tools:layout_editor_absoluteX="10dp"-->
 <!--        tools:layout_editor_absoluteY="457dp" />-->
 

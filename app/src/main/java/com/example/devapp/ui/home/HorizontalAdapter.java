@@ -1,16 +1,19 @@
 package com.example.devapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devapp.Details;
 import com.example.devapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +21,7 @@ import java.util.List;
 
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.HorizontalViewHolder>{
 
-    private final Context context;
+    private Context context;
     private String[] items;
     private String[] ids;
     private String mediatype;
@@ -38,7 +41,9 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
     @Override
     public HorizontalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
+
         View view=inflater.inflate(R.layout.slideitem,parent,false);
+        context = view.getContext();
         return new HorizontalViewHolder(view);
     }
 
@@ -49,6 +54,23 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
         //Picasso.with(iv.getContext()).load(items[position]).into(iv);
         Log.d("Slider ", position + " " + ids[position]);
         Picasso.with(context).load(items[position]).into(holder.iv);
+
+
+        holder.iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("click", "onClick: Clicked on an image");
+                Intent intent=new Intent(context, Details.class);
+                intent.putExtra("id",ids[position]);
+                intent.putExtra("media","movie");
+
+                context.startActivity(intent);
+
+                //Toast.makeText(context, "clicked on an image", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     @Override
