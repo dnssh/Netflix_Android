@@ -1,10 +1,16 @@
 package com.example.devapp.ui.dashboard;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.devapp.Movie;
 import com.example.devapp.R;
 import com.example.devapp.ui.home.HorizontalAdapter;
 
@@ -41,8 +48,12 @@ public class DashboardFragment extends Fragment {
     private static JSONArray searchResults;
     private View root;
 
-    public String[] title=new String[20];
+    public String[] titles=new String[20];
     public String[] dates=new String[20];
+    private String keyword="";
+
+    public String id,type,title,date,rating,imgurl;
+    ArrayList<Movie> items =new ArrayList<>();
 //    List<NewsArticle> articles;
 //    HomePageAdapter adapter;
 
@@ -51,11 +62,34 @@ public class DashboardFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         //final TextView textView = root.findViewById(R.id.text_dashboard);
 
+        Log.d("finalList11", String.valueOf(items.size()));
 
-        getSearchResults("dev");
+
+        //getSearchResults("Avenger");
         RecyclerView list=(RecyclerView) root.findViewById(R.id.searchlist);
         list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        list.setAdapter(new SearchAdapter(title,dates,getContext()));
+        //list.setAdapter(new SearchAdapter(titles,dates,getContext()));
+        Log.d("finalList", String.valueOf(items.size()));
+        list.setAdapter(new SearchAdapter(items,getContext()));
+
+
+        EditText myTextBox = root.findViewById(R.id.search_view);
+        myTextBox.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                keyword=myTextBox.getText().toString();
+                Log.d("keyword",keyword);
+                getSearchResults(keyword);
+                //TextView myOutputBox = (TextView) findViewById(R.id.myOutputBox);
+                //myOutputBox.setText(s);
+            }
+        });
+
 
 
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -112,14 +146,54 @@ public class DashboardFragment extends Fragment {
 //    }
 //
     private  void displayResults() throws JSONException {
-        Log.d("Display results : ", String.valueOf(searchResults.length()));
+        Log.d("Display size : ", String.valueOf(searchResults.length()));
         RecyclerView rv = root.findViewById(R.id.searchlist);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
-        for (int i=0;i<20;i++){
-            title[i]=searchResults.getJSONObject(i).getString("title");
-            dates[i]=searchResults.getJSONObject(i).getString("release_date");
+
+        //items = new ArrayList<>();
+        items.clear();
+
+        for (int i=0;i<searchResults.length();i++){
+            id=searchResults.getJSONObject(i).getString("id");
+
+            imgurl="https://image.tmdb.org/t/p/w780/"+searchResults.getJSONObject(i).getString("backdrop_path");
+            if(imgurl==null){imgurl="zxy";}
+            rating=searchResults.getJSONObject(i).getString("vote_average");
+
+            type=searchResults.getJSONObject(i).getString("media_type");
+
+            if(type.equals("movie")){
+                title=searchResults.getJSONObject(i).getString("title");
+                date=searchResults.getJSONObject(i).getString("release_date");
+            }
+            else{
+                title=searchResults.getJSONObject(i).getString("name");
+                date=searchResults.getJSONObject(i).getString("first_air_date");
+            }
+
+
+//            title=searchResults.getJSONObject(i).getString("title");
+//            if(title=="" || title == null){title=searchResults.getJSONObject(i).getString("name");}
+//
+//            date=searchResults.getJSONObject(i).getString("release_date");
+//            if(date==null){date=searchResults.getJSONObject(i).getString("first_air_date");}
+
+
+            Log.d("ids", " id:"+id+" media:"+type+" title:"+title+" imgurl:"+imgurl+" date:"+date+" rating:"+rating);
+
+            Movie mv=new Movie(id,type,imgurl,title,date,rating);
+            mv.toMyString();
+            items.add(mv);
         }
+
+        Log.d("list length", String.valueOf(items.size()));
+        //Log.d("List",items.toString());
+
+//        for (int i=0;i<Math.min(searchResults.length(),20);i++){
+//            titles[i]=searchResults.getJSONObject(i).getString("title");
+//            dates[i]=searchResults.getJSONObject(i).getString("release_date");
+//        }
 //        if(searchResults.length() == 0){
 //            root.findViewById(R.id.no_results).setVisibility(View.VISIBLE);
 //            return ;

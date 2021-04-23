@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.devapp.Details;
+import com.example.devapp.Movie;
 import com.example.devapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -30,12 +31,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private ImageView imageview1,imageview2,imageview3,imageview4,imageview5,imageview6;
     private RequestQueue mQueue;
     private static JSONArray jsonArray;
+    List<Movie> items;
 
     public String[] urls=new String[6];
     public String[] ids=new String[6];
@@ -109,6 +113,13 @@ public class HomeFragment extends Fragment {
                     jsonObject.put("id", respArray.getJSONObject(i).getString("id"));
                     jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
                     jsonArray.put(jsonObject);
+                }
+
+                for(int i = 0; i < 6; i++) {
+
+                    String id=respArray.getJSONObject(i).getString("id");
+
+                    //items.put(new Movie());
                 }
                 urls[0]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(0).getString("poster_path");
                 urls[1]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(1).getString("poster_path");
