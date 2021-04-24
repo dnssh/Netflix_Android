@@ -2,8 +2,12 @@ package com.example.devapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +22,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class Details extends AppCompatActivity {
 
     private HomeViewModel homeViewModel;
@@ -27,7 +35,7 @@ public class Details extends AppCompatActivity {
     private static JSONArray jsonArray;
 
     public String[] urls,names;
-    String id,media;
+    String id,media,poster;
 
 
     @Override
@@ -40,6 +48,7 @@ public class Details extends AppCompatActivity {
         TextView tv3=(TextView) findViewById(R.id.textView3);
         TextView tv5=(TextView) findViewById(R.id.textView5);
         TextView tv7=(TextView) findViewById(R.id.textView7);
+        ImageButton ib=(ImageButton) findViewById(R.id.addwatch);
 
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
@@ -47,6 +56,15 @@ public class Details extends AppCompatActivity {
 
         getDataV(id,media);
         getcast(id,media);
+
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addBookmark();
+            }
+        });
+
+
     }
 
 
@@ -66,7 +84,7 @@ public class Details extends AppCompatActivity {
 //                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
 //                    jsonArray.put(jsonObject);
 //                }
-                String poster="https://image.tmdb.org/t/p/w780/"+response.getString("poster_path");
+                poster="https://image.tmdb.org/t/p/w780/"+response.getString("poster_path");
                 String overview=response.getString("overview");
                 String title=response.getString("title");
                 String year=response.getString("release_date");
@@ -168,5 +186,23 @@ public class Details extends AppCompatActivity {
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
+
+    private void addBookmark(){
+        //items = new ArrayList<>();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        //editor.clear();
+
+        List<String> list=new ArrayList<String>();
+        list.add(media.substring(0,1));
+        list.add(poster);
+        editor.putString(id, String.valueOf(list));
+        editor.commit();
+        Log.d("stored",id+":"+String.valueOf(list));
+
+    }
+
+
+
 
 }

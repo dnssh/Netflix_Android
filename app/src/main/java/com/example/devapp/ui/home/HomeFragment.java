@@ -1,6 +1,7 @@
 package com.example.devapp.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -43,6 +45,7 @@ public class HomeFragment extends Fragment {
 
     public String[] urls=new String[6];
     public String[] ids=new String[6];
+    private String media,id,poster;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -165,5 +168,21 @@ public class HomeFragment extends Fragment {
         String url="https://image.tmdb.org/t/p/w780/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg";
         Picasso.with(imageview1.getContext()).load(url).into(imageview1);
     }
+
+    private void addBookmark(){
+        //items = new ArrayList<>();
+        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+
+        List<String> list=new ArrayList<String>();
+        list.add(media);
+        list.add(poster);
+        editor.putString(id, String.valueOf(list));
+        editor.commit();
+        Log.d("stored",id+":"+String.valueOf(list));
+
+    }
+
+
 
 }

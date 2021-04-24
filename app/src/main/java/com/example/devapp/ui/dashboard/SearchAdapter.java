@@ -52,8 +52,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position) {
 
-
-
         //holder.tv2.setText(items[position]);
         Movie item = items.get(position);
 
