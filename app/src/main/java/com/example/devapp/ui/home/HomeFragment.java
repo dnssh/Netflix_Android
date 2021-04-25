@@ -57,8 +57,39 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home1);
 
+        TextView tv1=(TextView) root.findViewById(R.id.movietab);
+        TextView tv2=(TextView) root.findViewById(R.id.tvtab);
+        media="movie";
+
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(media.equals("tv")){
+                    media="movie";
+                    Log.d("changed to",media);
+                    getSlider(root);
+                    getData1(root,media);
+                    getData2(root);
+                }
+
+            }
+        });
+
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(media.equals("movie")){
+                    media="tv";
+                    Log.d("changed to",media);
+                    getSlider(root);
+                    getData1(root,media);
+                    getData2(root);
+                }
+            }
+        });
+
         getSlider(root);
-        getData1(root);
+        getData1(root,"movie");
         getData2(root);
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -71,8 +102,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void getData1(View root){
-        String url=baseurl+"/popularmovies";
+    public void getData1(View root, String media){
+        String url=baseurl+"/popular"+media;
         //Log.d("api",url);
 
         RequestQueue que = Volley.newRequestQueue(getContext());
@@ -80,14 +111,14 @@ public class HomeFragment extends Fragment {
         //JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             RecyclerView list=(RecyclerView) root.findViewById(R.id.list);
             list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-            list.setAdapter(new HorizontalAdapter("movie",response,getContext()));
+            list.setAdapter(new HorizontalAdapter(media,response,getContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
 
     public void getData2(View root){
-        String url=baseurl+"/topratedmovies";
+        String url=baseurl+"/toprated"+media;
         //Log.d("api",url);
 
         RequestQueue que = Volley.newRequestQueue(getContext());
@@ -95,15 +126,22 @@ public class HomeFragment extends Fragment {
             //JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             RecyclerView list=(RecyclerView) root.findViewById(R.id.list2);
             list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-            list.setAdapter(new HorizontalAdapter("movie",response,getContext()));
+            list.setAdapter(new HorizontalAdapter(media,response,getContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
 
     public void getSlider(View root){
+        String url;
 
-        String url=baseurl+"/currentlyplaying";
+        if(media.equals("movie")){
+            url=baseurl+"/currentlyplaying";
+        }
+        else{
+            url=baseurl+"/trendingtv";
+        }
+
         //Log.d("api",url);
 
         RequestQueue que = Volley.newRequestQueue(getContext());

@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    tools:context=".ui.home.HomeFragment">-->
 
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ui.home.HomeFragment">
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    tools:context=".Details">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/movietab"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="Movies"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="80dp"/>
+
+    <TextView
+        android:id="@+id/tvtab"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="TV Shows"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"/>
+<!--    app:layout_constraintStart_toEndOf="@+id/movietab"-->
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/slider"
@@ -26,55 +60,65 @@
         app:sliderIndicatorRadius="2dp"
         app:sliderIndicatorSelectedColor="#5A5A5A"
         app:sliderIndicatorUnselectedColor="#FFF"
-        app:sliderScrollTimeInSec="1" />
+        app:sliderScrollTimeInSec="1"
+        android:layout_below="@+id/movietab"/>
 
 
     <TextView
         android:id="@+id/text_home1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_horizontal"
         android:text="TopRated Movies"
-        android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider" />
+        android:layout_below="@+id/slider" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/list"
+        android:layout_below="@+id/text_home1">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/text_home2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:gravity="center_horizontal"
         android:text="Popular Movies"
-        android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/list"
+        android:layout_below="@+id/list"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/text_home1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
         android:id="@+id/list2"
-        app:layout_constraintTop_toBottomOf="@+id/text_home2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
+        android:layout_below="@+id/text_home2">
     </androidx.recyclerview.widget.RecyclerView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/text_home3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Powered by TMDB"
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/list2"/>
+
+    <TextView
+        android:id="@+id/text_home4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Developed by Devansh Shah"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/text_home3"
+        android:layout_marginBottom="50dp"/>
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
