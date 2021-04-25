@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.devapp.ui.dashboard.SearchAdapter;
 import com.example.devapp.ui.home.HomeViewModel;
 import com.example.devapp.ui.home.HorizontalAdapter;
 import com.example.devapp.ui.notifications.BookmarkAdapter;
@@ -62,10 +63,9 @@ public class Details extends AppCompatActivity {
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
 
-
         getDataV(id,media);
-        //getcast(id,media);
         getCast(id,media);
+        getReviews(id,media);
 
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,13 +74,11 @@ public class Details extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 
     public void getDataV(String id, String media) {
-//        String url="https://api.themoviedb.org/3/movie/299534?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
+//      String url="https://api.themoviedb.org/3/movie/299534?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
         String url="https://api.themoviedb.org/3/"+media+"/"+id+"?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
         RequestQueue que = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -125,79 +123,6 @@ public class Details extends AppCompatActivity {
         que.add(jsonRequest);
     }
 
-    public void getcast3(String id, String media) {
-        String url="https://api.themoviedb.org/3/"+media+"/"+id+"/credits?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=en-US&page=1";
-        urls = new String[6];
-        names= new String[6];
-        //String url="https://api.themoviedb.org/3/movie/299534?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
-        RequestQueue que = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
-                null, response -> {
-            try {
-                //Log.d("response", response.toString(4));
-//                JSONArray respArray = response.getJSONArray("results");
-//                jsonArray = new JSONArray();
-//                for(int i = 0; i < 6; i++) {
-//                    JSONObject jsonObject = new JSONObject();
-//                    jsonObject.put("title", respArray.getJSONObject(i).getString("title"));
-//                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
-//                    jsonArray.put(jsonObject);
-//                }
-
-                JSONArray casts= response.getJSONArray("cast");
-                Log.d("inside", casts.toString(4));
-                urls[0]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(0).getString("profile_path");
-                Log.d("url0",urls[0]);
-//                urls[1]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(1).getString("profile_path");
-//                urls[2]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(2).getString("profile_path");
-//                urls[3]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(3).getString("profile_path");
-//                urls[4]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(4).getString("profile_path");
-//                urls[5]="https://image.tmdb.org/t/p/w780/"+casts.getJSONObject(5).getString("profile_path");
-
-//                ImageView iv2= (ImageView) findViewById(R.id.imageView2);
-//                ImageView iv3= (ImageView) findViewById(R.id.imageView3);
-//                ImageView iv4= (ImageView) findViewById(R.id.imageView4);
-//                ImageView iv5= (ImageView) findViewById(R.id.imageView5);
-//                ImageView iv6= (ImageView) findViewById(R.id.imageView6);
-//                ImageView iv7= (ImageView) findViewById(R.id.imageView7);
-
-//                Picasso.with(iv2.getContext()).load(urls[0]).into(iv2);
-//                Picasso.with(iv3.getContext()).load(urls[1]).into(iv3);
-//                Picasso.with(iv4.getContext()).load(urls[2]).into(iv4);
-//                Picasso.with(iv5.getContext()).load(urls[3]).into(iv5);
-//                Picasso.with(iv6.getContext()).load(urls[4]).into(iv6);
-//                Picasso.with(iv7.getContext()).load(urls[5]).into(iv7);
-//
-//                names[0]=casts.getJSONObject(0).getString("name");
-//                names[1]=casts.getJSONObject(1).getString("name");
-//                names[2]=casts.getJSONObject(2).getString("name");
-//                names[3]=casts.getJSONObject(3).getString("name");
-//                names[4]=casts.getJSONObject(4).getString("name");
-//                names[5]=casts.getJSONObject(5).getString("name");
-//
-//                TextView tv11=(TextView) findViewById(R.id.textView11);
-//                TextView tv12=(TextView) findViewById(R.id.textView12);
-//                TextView tv13=(TextView) findViewById(R.id.textView13);
-//                TextView tv21=(TextView) findViewById(R.id.textView21);
-//                TextView tv22=(TextView) findViewById(R.id.textView22);
-//                TextView tv23=(TextView) findViewById(R.id.textView23);
-//
-//                tv11.setText(names[0]);
-//                tv12.setText(names[1]);
-//                tv13.setText(names[2]);
-//                tv21.setText(names[3]);
-//                tv22.setText(names[4]);
-//                tv23.setText(names[5]);
-
-                Log.d("urls", String.valueOf(urls));
-                Log.d("names", String.valueOf(names[0]));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> Log.e("Error", error.toString()));
-        que.add(jsonRequest);
-    }
-
     private void addBookmark(){
         //items = new ArrayList<>();
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
@@ -226,7 +151,7 @@ public class Details extends AppCompatActivity {
     private boolean checkBookmark(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         boolean present=pref.contains(id);
-        Log.d("check", String.valueOf(present));
+        //Log.d("check", String.valueOf(present));
         return present;
 
     }
@@ -234,7 +159,7 @@ public class Details extends AppCompatActivity {
 
     public void getCast(String id, String media){
         String url=baseurl+"/"+media+"cast?id="+id;
-        Log.d("url cast",url);
+        //Log.d("url cast",url);
 
         RecyclerView clist=(RecyclerView) findViewById(R.id.castlist);
 
@@ -243,16 +168,30 @@ public class Details extends AppCompatActivity {
 
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
-            try {
-                clist.setAdapter(new CastAdapter(response,getApplicationContext()));
-                Log.d("RespArray",response.toString(4));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            clist.setAdapter(new CastAdapter(response,getApplicationContext()));
+            //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
 
+    public void getReviews(String id, String media){
+        String url=baseurl+"/"+media+"reviews?id="+id;
+        //Log.d("url reviews",url);
+
+
+        RecyclerView rlist=(RecyclerView) findViewById(R.id.reviewlist);
+        rlist.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
+        //clist.setLayoutManager(gridLayoutManager);
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            rlist.setAdapter(new ReviewAdapter(response,getApplicationContext()));
+            //Log.d("RespArray",response.toString(4));
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+    }
 
 
 

@@ -115,8 +115,27 @@
         android:id="@+id/castlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView8"
-        />
+        android:layout_below="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/rvtext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Reviews"
+        android:layout_below="@+id/castlist" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reviewlist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rvtext" />
+
+    <TextView
+        android:id="@+id/picktext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Recommended Picks"
+        android:layout_below="@+id/reviewlist" />
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
