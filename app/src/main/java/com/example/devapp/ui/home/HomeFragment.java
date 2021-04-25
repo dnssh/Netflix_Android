@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.devapp.Details;
 import com.example.devapp.Movie;
 import com.example.devapp.R;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ import static com.example.devapp.Constants.baseurl;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private ImageView imageview1,imageview2,imageview3,imageview4,imageview5,imageview6;
+
     private RequestQueue mQueue;
     private static JSONArray jsonArray;
     List<Movie> items;
@@ -56,8 +57,11 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home1);
 
+
+
         //urls = new String[6];
         //loadData();
+        getSlider(root);
         getData1(root);
         getData2(root);
 
@@ -134,7 +138,6 @@ public class HomeFragment extends Fragment {
         que.add(jsonRequest);
     }
 
-
     public void getData2(View root){
         String url=baseurl+"/topratedmovies";
         Log.d("api",url);
@@ -153,22 +156,53 @@ public class HomeFragment extends Fragment {
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
-//    public void popularmovies() throws JSONException {
-//        //Log.d("array", String.valueOf(jsonArray.getJSONObject(0)));
-////        String url1="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(0).getString("poster_path");
-////        String url2="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(1).getString("poster_path");
-//
-//        Picasso.with(imageview1.getContext()).load(urls[0]).into(imageview1);
-//        Picasso.with(imageview2.getContext()).load(urls[1]).into(imageview2);
-//        Picasso.with(imageview3.getContext()).load(urls[2]).into(imageview3);
-//        Picasso.with(imageview4.getContext()).load(urls[3]).into(imageview4);
-//        Picasso.with(imageview5.getContext()).load(urls[4]).into(imageview5);
-//        Picasso.with(imageview6.getContext()).load(urls[5]).into(imageview6);
-//    }
 
-    private void loadData(){
-        String url="https://image.tmdb.org/t/p/w780/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg";
-        Picasso.with(imageview1.getContext()).load(url).into(imageview1);
+    public void getSlider(View root){
+
+
+
+        String url=baseurl+"/currentlyplaying";
+        Log.d("api",url);
+
+        RequestQueue que = Volley.newRequestQueue(getContext());
+        ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
+
+        JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            //JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                for(int i=0;i<6;i++){
+                    String lnk="https://image.tmdb.org/t/p/w780/"+response.getJSONObject(i).getString("poster_path");
+
+                    sliderDataArrayList.add(new SliderData(lnk));
+                }
+//                RecyclerView list=(RecyclerView) root.findViewById(R.id.list2);
+//                list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+//                list.setAdapter(new HorizontalAdapter("movie",response,getContext()));
+
+
+                SliderView sliderView = root.findViewById(R.id.slider);
+//                sliderDataArrayList.add(new SliderData("https://image.tmdb.org/t/p/w780//2xmx8oPlbDaxTjHsIOZvOt5L3aJ.jpg"));
+//                sliderDataArrayList.add(new SliderData("https://image.tmdb.org/t/p/w780//279yOM4OQREL36B3SECnRxoB4MZ.jpg"));
+//                sliderDataArrayList.add(new SliderData("https://image.tmdb.org/t/p/w780//2CAL2433ZeIihfX1Hb2139CX0pW.jpg"));
+
+                SliderAdapter adapter = new SliderAdapter(getContext(), sliderDataArrayList);
+                sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+                sliderView.setSliderAdapter(adapter);
+                sliderView.setScrollTimeInSec(3);
+                sliderView.setAutoCycle(true);
+                sliderView.startAutoCycle();
+
+                Log.d("RespArray",response.toString(4));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+
+
     }
+
+
+
 
 }
