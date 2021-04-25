@@ -65,6 +65,7 @@ public class Details extends AppCompatActivity {
         });
 
 
+
     }
 
 
@@ -192,13 +193,31 @@ public class Details extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         SharedPreferences.Editor editor = pref.edit();
         //editor.clear();
+        if(!checkBookmark()){
+            List<String> list=new ArrayList<String>();
+            list.add(media.substring(0,1));
+            list.add(poster);
+            editor.putString(id, String.valueOf(list));
+            editor.commit();
+            Log.d("stored",id+":"+String.valueOf(list));
+        }
 
-        List<String> list=new ArrayList<String>();
-        list.add(media.substring(0,1));
-        list.add(poster);
-        editor.putString(id, String.valueOf(list));
+
+    }
+
+    private void removeBookmark(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove(id);
         editor.commit();
-        Log.d("stored",id+":"+String.valueOf(list));
+        Log.d("Removed",id);
+    }
+
+    private boolean checkBookmark(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        boolean present=pref.contains(id);
+        Log.d("check", String.valueOf(present));
+        return present;
 
     }
 

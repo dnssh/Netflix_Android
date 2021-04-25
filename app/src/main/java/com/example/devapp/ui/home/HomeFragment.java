@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.devapp.Details;
@@ -34,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.devapp.Constants.baseurl;
 
 public class HomeFragment extends Fragment {
 
@@ -51,46 +54,18 @@ public class HomeFragment extends Fragment {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-
-
-        imageview1=root.findViewById(R.id.imageButton1);
-        imageview2=root.findViewById(R.id.imageButton2);
-        imageview3=root.findViewById(R.id.imageButton3);
-        imageview4=root.findViewById(R.id.imageButton4);
-        imageview5=root.findViewById(R.id.imageButton5);
-        imageview6=root.findViewById(R.id.imageButton6);
-
-        Button btn9;
+        final TextView textView = root.findViewById(R.id.text_home1);
 
         //urls = new String[6];
-
         //loadData();
-        getDataV(root);
-
-
+        getData1(root);
+        getData2(root);
 
 //        try {
-//
 //            //popularmovies();
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-
-        btn9= (Button)root.findViewById(R.id.btn9);
-        btn9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id="299534";
-                String media="movie";
-                Intent intent=new Intent(getActivity(), Details.class);
-                intent.putExtra("id",id);
-                intent.putExtra("media",media);
-
-                startActivity(intent);
-            }
-        });
-
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -102,87 +77,98 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void getDataV(View root) {
-        String url="https://api.themoviedb.org/3/movie/popular?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
+//    public void getDataV(View root) {
+//        //String url="https://api.themoviedb.org/3/movie/popular?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
+//        String url=baseurl+"/popular";
+//
+//        RequestQueue que = Volley.newRequestQueue(getContext());
+//        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
+//                null, response -> {
+//            try {
+//                //Log.d("response", response.toString(4));
+//                JSONArray respArray = response.getJSONArray("results");
+//                jsonArray = new JSONArray();
+//                for(int i = 0; i < 6; i++) {
+//                    JSONObject jsonObject = new JSONObject();
+//                    jsonObject.put("id", respArray.getJSONObject(i).getString("id"));
+//                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
+//                    jsonArray.put(jsonObject);
+//                }
+//
+//                for(int i=0;i<6;i++){
+//                    ids[i]=respArray.getJSONObject(i).getString("id");
+//                    urls[i]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(i).getString("poster_path");
+//                }
+//
+////                popularmovies();
+//                RecyclerView list=(RecyclerView) root.findViewById(R.id.list);
+//                list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+//                Log.d("Sending to adapter", ids[0]+ " " + ids[1] + " " + ids[2] + " " +  ids[3] + " "+ ids[4] + " "+ids[5]);
+//                list.setAdapter(new HorizontalAdapter(ids,urls,getContext()));
+//
+//                //Log.d("RespArray",jsonArray.toString(4));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }, error -> Log.e("Error", error.toString()));
+//        que.add(jsonRequest);
+//        //Log.d("stored",urls[0]);
+//    }
+
+    public void getData1(View root){
+        String url=baseurl+"/popularmovies";
+        Log.d("api",url);
+
         RequestQueue que = Volley.newRequestQueue(getContext());
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
-                null, response -> {
+        JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+        //JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
-                //Log.d("response", response.toString(4));
-                JSONArray respArray = response.getJSONArray("results");
-                jsonArray = new JSONArray();
-                for(int i = 0; i < 6; i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", respArray.getJSONObject(i).getString("id"));
-                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
-                    jsonArray.put(jsonObject);
-                }
-
-                for(int i = 0; i < 6; i++) {
-
-                    String id=respArray.getJSONObject(i).getString("id");
-
-                    //items.put(new Movie());
-                }
-                urls[0]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(0).getString("poster_path");
-                urls[1]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(1).getString("poster_path");
-                urls[2]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(2).getString("poster_path");
-                urls[3]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(3).getString("poster_path");
-                urls[4]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(4).getString("poster_path");
-                urls[5]="https://image.tmdb.org/t/p/w780/"+respArray.getJSONObject(5).getString("poster_path");
-
-                for(int i=0;i<6;i++){
-                    ids[i]=respArray.getJSONObject(i).getString("id");
-                }
-
-//                popularmovies();
                 RecyclerView list=(RecyclerView) root.findViewById(R.id.list);
                 list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-                Log.d("Sending to adapter", ids[0]+ " " + ids[1] + " " + ids[2] + " " +  ids[3] + " "+ ids[4] + " "+ids[5]);
-                list.setAdapter(new HorizontalAdapter(ids,urls,getContext()));
-
-                //Log.d("RespArray",jsonArray.toString(4));
+                list.setAdapter(new HorizontalAdapter("movie",response,getContext()));
+                Log.d("RespArray",response.toString(4));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
-        //Log.d("stored",urls[0]);
     }
 
 
-    public void popularmovies() throws JSONException {
-        //Log.d("array", String.valueOf(jsonArray.getJSONObject(0)));
-//        String url1="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(0).getString("poster_path");
-//        String url2="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(1).getString("poster_path");
+    public void getData2(View root){
+        String url=baseurl+"/topratedmovies";
+        Log.d("api",url);
 
-        Picasso.with(imageview1.getContext()).load(urls[0]).into(imageview1);
-        Picasso.with(imageview2.getContext()).load(urls[1]).into(imageview2);
-        Picasso.with(imageview3.getContext()).load(urls[2]).into(imageview3);
-        Picasso.with(imageview4.getContext()).load(urls[3]).into(imageview4);
-        Picasso.with(imageview5.getContext()).load(urls[4]).into(imageview5);
-        Picasso.with(imageview6.getContext()).load(urls[5]).into(imageview6);
+        RequestQueue que = Volley.newRequestQueue(getContext());
+        JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            //JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                RecyclerView list=(RecyclerView) root.findViewById(R.id.list2);
+                list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+                list.setAdapter(new HorizontalAdapter("movie",response,getContext()));
+                Log.d("RespArray",response.toString(4));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
     }
+//    public void popularmovies() throws JSONException {
+//        //Log.d("array", String.valueOf(jsonArray.getJSONObject(0)));
+////        String url1="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(0).getString("poster_path");
+////        String url2="https://image.tmdb.org/t/p/w780/"+jsonArray.getJSONObject(1).getString("poster_path");
+//
+//        Picasso.with(imageview1.getContext()).load(urls[0]).into(imageview1);
+//        Picasso.with(imageview2.getContext()).load(urls[1]).into(imageview2);
+//        Picasso.with(imageview3.getContext()).load(urls[2]).into(imageview3);
+//        Picasso.with(imageview4.getContext()).load(urls[3]).into(imageview4);
+//        Picasso.with(imageview5.getContext()).load(urls[4]).into(imageview5);
+//        Picasso.with(imageview6.getContext()).load(urls[5]).into(imageview6);
+//    }
 
     private void loadData(){
         String url="https://image.tmdb.org/t/p/w780/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg";
         Picasso.with(imageview1.getContext()).load(url).into(imageview1);
     }
-
-    private void addBookmark(){
-        //items = new ArrayList<>();
-        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
-        SharedPreferences.Editor editor = pref.edit();
-
-        List<String> list=new ArrayList<String>();
-        list.add(media);
-        list.add(poster);
-        editor.putString(id, String.valueOf(list));
-        editor.commit();
-        Log.d("stored",id+":"+String.valueOf(list));
-
-    }
-
-
 
 }

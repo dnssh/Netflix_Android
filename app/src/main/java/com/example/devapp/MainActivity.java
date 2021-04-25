@@ -46,12 +46,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        ImageView imageview1=findViewById(R.id.imageButton1);
-        ImageView imageview2=findViewById(R.id.imageButton2);
-        ImageView imageview3=findViewById(R.id.imageButton3);
-        ImageView imageview4=findViewById(R.id.imageButton4);
-        ImageView imageview5=findViewById(R.id.imageButton5);
-        ImageView imageview6=findViewById(R.id.imageButton6);
         //Log.d("jj",""+imageview);
 //        mQueue= Volley.newRequestQueue(this);
 //        getDataV();
@@ -96,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getData(){
         RequestQueue que = Volley.newRequestQueue(getBaseContext());
-        Log.d("Inside","ABC");
         String url="https://api.themoviedb.org/3/movie/popular?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

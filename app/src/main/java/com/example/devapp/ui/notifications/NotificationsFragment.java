@@ -141,6 +141,9 @@ public class NotificationsFragment extends Fragment {
     }
 
 
+
+
+
     //view =  inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
 }

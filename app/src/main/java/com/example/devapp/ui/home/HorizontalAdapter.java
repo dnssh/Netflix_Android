@@ -13,9 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.devapp.Details;
 import com.example.devapp.R;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -24,11 +28,14 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
     private Context context;
     private String[] items;
     private String[] ids;
-    private String mediatype;
+    private String mtype;
+    private JSONArray response;
 
-    public HorizontalAdapter(String[] ids, String[] items, Context context) {
-        this.ids=ids;
-        this.items = items;
+    public HorizontalAdapter(String mtype,JSONArray response, Context context) {
+//        this.ids=ids;
+//        this.items = items;
+        this.mtype=mtype;
+        this.response=response;
         this.context=context;
     }
 //    public BookmarkPageAdapter(List<NewsArticle> articles, Context context, TextView textView){
@@ -52,30 +59,40 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
 
         //holder.txt.setText(items[position]);
         //Picasso.with(iv.getContext()).load(items[position]).into(iv);
-        Log.d("Slider ", position + " " + ids[position]);
-        Picasso.with(context).load(items[position]).into(holder.iv);
+        //Log.d("Slider ", position + " " + ids[position]);
+        try {
+            String id=response.getJSONObject(position).getString("id");
+            String imgurl="https://image.tmdb.org/t/p/w780/"+response.getJSONObject(position).getString("poster_path");
+            Log.d("image url",imgurl);
+            Picasso.with(context).load(imgurl).into(holder.iv);
 
 
-        holder.iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("click", "onClick: Clicked on an image");
-                Intent intent=new Intent(context, Details.class);
-                intent.putExtra("id",ids[position]);
-                intent.putExtra("media","movie");
+            holder.iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("click", "onClick: Clicked on an image");
+                    Intent intent=new Intent(context, Details.class);
+                    intent.putExtra("id",id);
+                    intent.putExtra("media",mtype);
 
-                context.startActivity(intent);
+                    context.startActivity(intent);
 
-                //Toast.makeText(context, "clicked on an image", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    //Toast.makeText(context, "clicked on an image", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
     @Override
     public int getItemCount() {
-        return ids.length;
+        return 10;
     }
 
     public class HorizontalViewHolder extends RecyclerView.ViewHolder {
