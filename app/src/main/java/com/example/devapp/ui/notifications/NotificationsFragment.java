@@ -50,12 +50,10 @@ public class NotificationsFragment extends Fragment {
 
         //ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.watchlist,R.id.textView,StringArray);
 
-
         RecyclerView list=(RecyclerView) root.findViewById(R.id.watchlist);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
         list.setLayoutManager(gridLayoutManager);
-
 
         //GridView list= (GridView) root.findViewById(R.id.watchlist);
         //list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
