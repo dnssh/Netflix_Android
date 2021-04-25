@@ -27,5 +27,7 @@ public class ReviewPageActivity extends AppCompatActivity {
         tv1.setText(ln1);
         tv2.setText(ln2);
         tv3.setText(content);
+
+        this.getSupportActionBar().hide();
     }
 }

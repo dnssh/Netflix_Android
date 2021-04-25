@@ -74,6 +74,8 @@ public class Details extends AppCompatActivity {
             }
         });
 
+        this.getSupportActionBar().hide();
+
     }
 
 
@@ -136,8 +138,6 @@ public class Details extends AppCompatActivity {
             editor.commit();
             Log.d("stored",id+":"+String.valueOf(list));
         }
-
-
     }
 
     private void removeBookmark(){
