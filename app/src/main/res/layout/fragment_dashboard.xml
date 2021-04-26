@@ -6,40 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
-<!--    <TextView-->
-<!--        android:id="@+id/searchbox"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Search"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteX="138dp"-->
-<!--        tools:layout_editor_absoluteY="5dp" />-->
-
-<!--    <android.support.v7.widget.SearchView-->
-<!--        android:id="@+id/search_view"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:layout_alignParentRight="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content" />-->
-
-<!--    <SearchView-->
-<!--        android:id="@+id/search_view"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="30dp" />-->
+    <ImageView
+        android:src="@drawable/ic_baseline_search_24"
+        android:id="@+id/searchicon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:id="@+id/search_view"
         android:layout_marginHorizontal="0dp"
+        android:layout_marginLeft="50dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchicon"
         android:maxLines="1"
         android:inputType="text"
-        android:hint="Search"
+        android:hint="Search Movies and TV"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
         android:imeOptions="actionSend"/>
+
+    <ImageView
+        android:src="@drawable/ic_baseline_remove_circle_outline_24"
+        android:id="@+id/crossicon"
+        android:layout_height="35dp"
+        android:layout_width="35dp"
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toEndOf="@+id/search_view"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchlist"

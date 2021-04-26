@@ -64,6 +64,10 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         Picasso.with(context).load(imgurl).into(holder.iv);
 
 
+
+
+
+
         holder.ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,9 +78,8 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 Log.d("Removed",id);
 
             }
+
         });
-
-
 
     }
 
@@ -90,14 +93,14 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
 
         ImageView iv;
         TextView tv1;
-        ImageButton ib;
+        ImageView ib;
         String id, typ, imgurl;
 
         public BookmarkViewHolder(@NonNull View itemView) {
             super(itemView);
             iv= (ImageView) itemView.findViewById(R.id.cardimage);
             tv1=(TextView) itemView.findViewById(R.id.type);
-            ib=(ImageButton) itemView.findViewById(R.id.minuswatch);
+            ib=(ImageView) itemView.findViewById(R.id.minuswatch);
         }
 
     }

@@ -62,7 +62,7 @@ public class Details extends AppCompatActivity {
         TextView tv3=(TextView) findViewById(R.id.textView3);
         TextView tv5=(TextView) findViewById(R.id.textView5);
         TextView tv7=(TextView) findViewById(R.id.textView7);
-        ImageButton ib=(ImageButton) findViewById(R.id.addwatch);
+        ImageView ib=(ImageView) findViewById(R.id.addwatch);
 
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
@@ -123,7 +123,7 @@ public class Details extends AppCompatActivity {
                 tv7.setText(gstr);
                 Log.d("genres",gstr);
                 Log.d("poster",poster);
-                Picasso.with(getApplicationContext()).load(poster).into(iv1);
+                //Picasso.with(getApplicationContext()).load(poster).into(iv1);
 
             } catch (JSONException e) {
                 e.printStackTrace();

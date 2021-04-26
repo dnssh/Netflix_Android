@@ -2,6 +2,8 @@ package com.example.devapp.ui.dashboard;
 
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devapp.Details;
 import com.example.devapp.Movie;
 import com.example.devapp.R;
 import com.example.devapp.ui.home.HorizontalAdapter;
@@ -54,10 +57,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         //holder.tv2.setText(items[position]);
         Movie item = items.get(position);
-
-        holder.tv1.setText(item.id);
-        holder.tv2.setText(item.title);
+        String year= item.type+" ("+item.date.substring(0,4)+")";
+        holder.tv1.setText(year);
+        holder.tv2.setText(item.rating);
+        holder.tv3.setText(item.title);
         Picasso.with(context).load(item.imgurl).into(holder.iv);
+
+
+        holder.iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, Details.class);
+                intent.putExtra("id",item.id);
+                intent.putExtra("media",item.type);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

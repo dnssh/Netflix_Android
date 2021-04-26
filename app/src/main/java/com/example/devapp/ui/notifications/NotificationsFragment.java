@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import com.example.devapp.ui.dashboard.SearchAdapter;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +60,12 @@ public class NotificationsFragment extends Fragment {
         //GridView list= (GridView) root.findViewById(R.id.watchlist);
         //list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         Log.d("finalList", String.valueOf(watchlist.size()));
-        list.setAdapter(new BookmarkAdapter(watchlist,getContext()));
+        RecyclerView.Adapter bkadapter=new BookmarkAdapter(watchlist,getContext());
+        list.setAdapter(bkadapter);
+        bkadapter.notifyDataSetChanged();
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(list);
 
 
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -69,49 +75,26 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
-
-
-        //watchlist = new ArrayList<>();
-        //item=new ArrayList<>();
-
-
-//        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
-//        //Map<String,?> keys = pref.getAll();
-//        Map<String,?> keys = pref.getAll();
-//        for(Map.Entry<String,?> entry : keys.entrySet()) {
-//            Log.d("map values",entry.getKey() + ": " + entry.getValue().toString());
-//            //arr=entry.getValue();
-//            item=new ArrayList<>();
-//            item.add(entry.getKey());
-//            //List<String>=(List<String>) entry.getValue()
-//            String typ=((String)entry.getValue()).substring(1,2);
-//            if(typ.equals("m")){
-//                item.add("movie");
-//            }
-//            else{
-//                item.add("tv");
-//            }
-//            item.add(((String)entry.getValue()).substring(3,-1));
-//            Log.d("main data", String.valueOf(item));
-//
-//            watchlist.add(item);
-
-            //String value = item.add(entry.getValue().toString());
-            //String[] strArr = value
-
-//            try {
-//
-//                items.add(Movie.toNewsArticle(entry.getValue().toString()));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        //}
-//        if(checkEmptyList()) {
-//            return root;
-//        }
-//        displayArticles(root);
         return root;
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+            ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            int fromPosition= viewHolder.getAdapterPosition();
+            int toPosition= target.getAdapterPosition();
+            Collections.swap(watchlist,fromPosition,toPosition);
+
+            recyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
 
     private void parsedata(){
         watchlist = new ArrayList<>();
@@ -123,7 +106,6 @@ public class NotificationsFragment extends Fragment {
             //arr=entry.getValue();
             item = new ArrayList<>();
             item.add(entry.getKey());
-            //List<String>=(List<String>) entry.getValue()
             String typ = ((String) entry.getValue()).substring(1, 2);
             if (typ.equals("m")) {
                 item.add("movie");
@@ -132,16 +114,10 @@ public class NotificationsFragment extends Fragment {
             }
             int lgt=((String) entry.getValue()).length();
             item.add(((String) entry.getValue()).substring(3,lgt-1));
-            Log.d("main data", String.valueOf(item));
-
             watchlist.add(item);
         }
     }
 
 
-
-
-
-    //view =  inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
 }

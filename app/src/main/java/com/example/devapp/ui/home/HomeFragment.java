@@ -1,5 +1,6 @@
 package com.example.devapp.ui.home;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home1);
+
 
         TextView tv1=(TextView) root.findViewById(R.id.movietab);
         TextView tv2=(TextView) root.findViewById(R.id.tvtab);
