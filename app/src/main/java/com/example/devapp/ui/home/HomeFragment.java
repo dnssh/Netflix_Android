@@ -143,7 +143,6 @@ public class HomeFragment extends Fragment {
         }
 
         //Log.d("api",url);
-
         RequestQueue que = Volley.newRequestQueue(getContext());
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
 

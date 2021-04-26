@@ -1,5 +1,6 @@
 package com.example.devapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,9 @@ import com.example.devapp.ui.dashboard.SearchAdapter;
 import com.example.devapp.ui.home.HomeViewModel;
 import com.example.devapp.ui.home.HorizontalAdapter;
 import com.example.devapp.ui.notifications.BookmarkAdapter;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -63,9 +67,12 @@ public class Details extends AppCompatActivity {
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
 
+
         getDataV(id,media);
         getCast(id,media);
         getReviews(id,media);
+        getPicks(id,media);
+        getVideo(id,media);
 
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +87,8 @@ public class Details extends AppCompatActivity {
 
 
     public void getDataV(String id, String media) {
-//      String url="https://api.themoviedb.org/3/movie/299534?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
-        String url="https://api.themoviedb.org/3/"+media+"/"+id+"?api_key=d2494ce0da2dfa43a10b12b5456f65d2&language=enUS&page=1";
+
+        String url=baseurl+"/"+media+"details?id="+id;
         RequestQueue que = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, response -> {
@@ -95,7 +102,7 @@ public class Details extends AppCompatActivity {
 //                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
 //                    jsonArray.put(jsonObject);
 //                }
-                poster="https://image.tmdb.org/t/p/w780/"+response.getString("poster_path");
+                poster="https://image.tmdb.org/t/p/w780/"+response.getString("backdrop_path");
                 String overview=response.getString("overview");
                 String title=response.getString("title");
                 String year=response.getString("release_date");
@@ -116,8 +123,8 @@ public class Details extends AppCompatActivity {
                 tv7.setText(gstr);
                 Log.d("genres",gstr);
                 Log.d("poster",poster);
+                Picasso.with(getApplicationContext()).load(poster).into(iv1);
 
-                //Log.d("RespArray",jsonArray.toString(4));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -157,6 +164,42 @@ public class Details extends AppCompatActivity {
     }
 
 
+    public void getVideo(String id, String media){
+        String url=baseurl+"/"+media+"video?id="+id;
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
+
+//        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+//            @Override
+//            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+//                String videoId = "S0Q4gqBUs7c";
+//                youTubePlayer.loadVideo(videoId, 0);
+//            }
+//        });
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                    String videoId = null;
+                    try {
+                        videoId = response.getString("key");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    youTubePlayer.loadVideo(videoId, 0);
+                }
+            });
+            //clist.setAdapter(new CastAdapter(response,getApplicationContext()));
+            //Log.d("RespArray",response.toString(4));
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+    }
+
+
     public void getCast(String id, String media){
         String url=baseurl+"/"+media+"cast?id="+id;
         //Log.d("url cast",url);
@@ -188,6 +231,22 @@ public class Details extends AppCompatActivity {
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
             rlist.setAdapter(new ReviewAdapter(response,getApplicationContext()));
+            //Log.d("RespArray",response.toString(4));
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+    }
+
+
+    public void getPicks(String id, String media){
+        String url=baseurl+"/"+media+"recommended?id="+id;
+        //Log.d("url reviews",url);
+
+        RecyclerView plist=(RecyclerView) findViewById(R.id.pickslist);
+        plist.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            plist.setAdapter(new PicksAdapter(media,response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);

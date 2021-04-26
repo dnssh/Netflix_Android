@@ -33,16 +33,26 @@
     <!--        app:videoId="S0Q4gqBUs7c"-->
     <!--        app:autoPlay="true"-->
     <!--        app:showFullScreenButton="false" />-->
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="fill_parent"
-            android:layout_height="175dp"
-            android:layout_marginBottom="24dp"
 
-            app:srcCompat="@drawable/movie_placeholder"
-            tools:layout_editor_absoluteX="0dp" />
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:videoId="S0Q4gqBUs7c"
+        app:autoPlay="true"
+        app:showFullScreenButton="false" />
 
-            <TextView
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="fill_parent"
+        android:layout_height="175dp"
+        android:layout_marginBottom="24dp"
+        android:layout_below="@+id/youtube_player_view"
+
+        app:srcCompat="@drawable/movie_placeholder"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="fill_parent"
         android:layout_height="25dp"
@@ -136,6 +146,12 @@
         android:layout_height="wrap_content"
         android:text="Recommended Picks"
         android:layout_below="@+id/reviewlist" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pickslist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picktext" />
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
