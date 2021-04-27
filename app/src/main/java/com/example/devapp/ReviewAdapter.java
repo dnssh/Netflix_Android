@@ -20,7 +20,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static java.util.logging.Level.parse;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>{
 
@@ -51,11 +56,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             String rating=items.getJSONObject(position).getJSONObject("author_details").getString("rating");
             String content = items.getJSONObject(position).getString("content");
 
-            String ln1="by "+name+" on "+date;
-            String ln2=rating+"/5 ";
+//            SimpleDateFormat sdfr = new SimpleDateFormat("E, MMM dd yyyy");
+//            Date newdate=sdfr.parse(date );
+//            String fdate=sdfr.format(newdate);
 
-            holder.tv1.setText(ln1);
-            holder.tv2.setText(ln2);
+            String ln2="by "+name+" on "+date.substring(0,10);
+            String ln1=(Integer.parseInt(rating)/2)+"/5 ";
+
+            holder.tv1.setText(ln2);
+            holder.tv2.setText(ln1);
             holder.tv3.setText(content);
 
 

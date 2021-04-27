@@ -64,8 +64,15 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         Picasso.with(context).load(imgurl).into(holder.iv);
 
 
-
-
+        holder.iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, Details.class);
+                intent.putExtra("id",id);
+                intent.putExtra("media",typ);
+                context.startActivity(intent);
+            }
+        });
 
 
         holder.ib.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +108,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
             iv= (ImageView) itemView.findViewById(R.id.cardimage);
             tv1=(TextView) itemView.findViewById(R.id.type);
             ib=(ImageView) itemView.findViewById(R.id.minuswatch);
+
+
+
         }
 
     }

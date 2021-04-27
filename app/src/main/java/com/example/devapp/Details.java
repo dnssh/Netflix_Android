@@ -119,8 +119,8 @@ public class Details extends AppCompatActivity {
                 TextView tv7=(TextView) findViewById(R.id.textView7);
                 tv1.setText(title);
                 tv3.setText(overview);
-                tv5.setText(year);
-                tv7.setText(gstr);
+                tv5.setText(gstr);
+                tv7.setText(year.substring(0,4));
                 Log.d("genres",gstr);
                 Log.d("poster",poster);
                 //Picasso.with(getApplicationContext()).load(poster).into(iv1);

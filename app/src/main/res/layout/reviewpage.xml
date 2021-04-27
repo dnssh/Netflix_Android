@@ -24,20 +24,45 @@
 
         <TextView
             android:id="@+id/tv1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:text="0/5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:src="@drawable/ic_baseline_star_rate_24"
+            android:id="@+id/star"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tv1"/>
+
 
         <TextView
             android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv1"/>
+            android:layout_below="@+id/tv1"
+            android:text="Name"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/tv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv2"  />
+            android:layout_below="@+id/tv2"
+            android:text="Review Content"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"/>
 
 
     </RelativeLayout>
