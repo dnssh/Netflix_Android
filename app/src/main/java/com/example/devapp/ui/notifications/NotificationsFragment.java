@@ -96,7 +96,7 @@ public class NotificationsFragment extends Fragment {
         }
     };
 
-    private void parsedata(){
+    public void parsedata(){
         watchlist = new ArrayList<>();
         SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
         //Map<String,?> keys = pref.getAll();

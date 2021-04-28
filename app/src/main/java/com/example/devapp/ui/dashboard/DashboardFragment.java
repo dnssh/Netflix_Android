@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,22 +76,49 @@ public class DashboardFragment extends Fragment {
         list.setAdapter(new SearchAdapter(items,getContext()));
 
 
-        EditText myTextBox = root.findViewById(R.id.search_view);
-        myTextBox.addTextChangedListener(new TextWatcher() {
+//        EditText myTextBox = root.findViewById(R.id.search_view);
+        SearchView searchView = root.findViewById(R.id.search_view);
 
-            public void afterTextChanged(Editable s) {
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+        searchView.setQueryHint("Search Movies and TV");
 
-                keyword=myTextBox.getText().toString();
-                Log.d("keyword",keyword);
-                getSearchResults(keyword);
-                //TextView myOutputBox = (TextView) findViewById(R.id.myOutputBox);
-                //myOutputBox.setText(s);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //my code here for search
+                keyword=searchView.getQuery().toString();
+                Log.d("keyword",keyword);
+                getSearchResults(keyword);
+                return false;
+            }
+        });
+
+//        myTextBox.addTextChangedListener(new TextWatcher() {
+//
+//            public void afterTextChanged(Editable s) {
+//            }
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                keyword=myTextBox.getText().toString();
+//                Log.d("keyword",keyword);
+//                getSearchResults(keyword);
+//                //TextView myOutputBox = (TextView) findViewById(R.id.myOutputBox);
+//                //myOutputBox.setText(s);
+//            }
+//        });
 
 
 

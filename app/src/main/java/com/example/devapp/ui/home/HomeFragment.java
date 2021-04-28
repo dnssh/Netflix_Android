@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +68,18 @@ public class HomeFragment extends Fragment {
         TextView tv2=(TextView) root.findViewById(R.id.tvtab);
         TextView th3=(TextView) root.findViewById(R.id.text_home3);
         media="movie";
+
+        ProgressBar spinner;
+        TextView ft;
+        spinner =  root.findViewById(R.id.progressBar1);
+        ft=root.findViewById(R.id.fetching_text);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setVisibility(View.GONE);
+                ft.setVisibility(View.GONE);
+            }
+        }, 5000);
 
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override

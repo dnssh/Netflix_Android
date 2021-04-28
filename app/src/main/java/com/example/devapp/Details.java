@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +75,19 @@ public class Details extends AppCompatActivity {
 
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
+
+        ProgressBar spinner;
+        TextView ft;
+        spinner = findViewById(R.id.progressBar1);
+        ft=findViewById(R.id.fetching_text);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setVisibility(View.GONE);
+                ft.setVisibility(View.GONE);
+            }
+        }, 5000);
 
         checkBookmark();
         getDataV(id,media);
@@ -150,7 +165,7 @@ public class Details extends AppCompatActivity {
 //                    jsonObject.put("poster_path", respArray.getJSONObject(i).getString("poster_path"));
 //                    jsonArray.put(jsonObject);
 //                }
-                poster="https://image.tmdb.org/t/p/w780/"+response.getString("backdrop_path");
+                this.poster="https://image.tmdb.org/t/p/w780/"+response.getString("backdrop_path");
                 String overview=response.getString("overview");
                 String title=response.getString("title");
                 String year=response.getString("release_date");
@@ -160,6 +175,10 @@ public class Details extends AppCompatActivity {
                 for(int i = 0; i < jsonArray.length(); i++) {
                     gstr+=jsonArray.getJSONObject(i).getString("name")+", ";
                }
+                if(jsonArray.length()==0){
+                    TextView tv4=(TextView) findViewById(R.id.textView4);
+                    tv4.setVisibility(View.INVISIBLE);
+                }
                 ImageView iv1 = (ImageView) findViewById(R.id.imageView);
                 TextView tv1=(TextView) findViewById(R.id.textView);
                 TextView tv3=(TextView) findViewById(R.id.textView3);
@@ -169,6 +188,17 @@ public class Details extends AppCompatActivity {
                 tv3.setText(overview);
                 tv5.setText(gstr);
                 tv7.setText(year.substring(0,4));
+
+                if(year.isEmpty()){
+                    TextView tv6=(TextView) findViewById(R.id.textView6);
+                    tv6.setVisibility(View.INVISIBLE);
+                }
+
+                if(overview.isEmpty()){
+                    TextView tv2=(TextView) findViewById(R.id.textView2);
+                    tv2.setVisibility(View.INVISIBLE);
+                }
+
                 Log.d("genres",gstr);
                 Log.d("poster",poster);
                 //Picasso.with(getApplicationContext()).load(poster).into(iv1);
@@ -197,8 +227,7 @@ public class Details extends AppCompatActivity {
             ImageView ib=(ImageView) findViewById(R.id.addwatch);
             ImageView ir=(ImageView) findViewById(R.id.removewatch);
 
-            ib.setVisibility(View.INVISIBLE);
-            ir.setVisibility(View.VISIBLE);
+                 ir.setVisibility(View.VISIBLE);
 
         }
     }
@@ -244,14 +273,6 @@ public class Details extends AppCompatActivity {
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
-//        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-//            @Override
-//            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-//                String videoId = "S0Q4gqBUs7c";
-//                youTubePlayer.loadVideo(videoId, 0);
-//            }
-//        });
-
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -265,11 +286,82 @@ public class Details extends AppCompatActivity {
 
                         e.printStackTrace();
                     }
-                    youTubePlayer.loadVideo(videoId, 0);
+                    youTubePlayer.cueVideo(videoId, 0);
+                    //youTubePlayer.loadVideo(videoId, 0);
                 }
             });
             //clist.setAdapter(new CastAdapter(response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+    }
+
+
+    public void getVideo3(String id, String media){
+        String url=baseurl+"/"+media+"video?id="+id;
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            String vid="";
+            try {
+                vid = response.getString("key");
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("VideoId",vid+" @#23456");
+            if(!vid.isEmpty()){
+                Log.d("VideoId",vid);
+                YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+                getLifecycle().addObserver(youTubePlayerView);
+                String finalVideoId = vid;
+                youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                    @Override
+                    public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                        youTubePlayer.loadVideo(finalVideoId, 0);
+                    }
+                });
+            }else{
+//            catch (JSONException e) {
+                Log.d("Inside catch",this.poster);
+                ImageView iv = (ImageView) findViewById(R.id.imageView);
+                Picasso.with(getApplicationContext()).load(this.poster).into(iv);
+                Toast.makeText(getApplicationContext(), "Showing Image" + poster, Toast.LENGTH_SHORT).show();
+                YouTubePlayerView yt = (YouTubePlayerView) findViewById(R.id.youtube_player_view);
+                yt.setVisibility(View.INVISIBLE);
+            }
+//                e.printStackTrace();
+//            }
+
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
+    }
+
+    public void getVideo2(String id, String media){
+        String url=baseurl+"/"+media+"video?id="+id;
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            try {
+                String videoId = response.getString("key");
+                youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                    @Override
+                    public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                        youTubePlayer.loadVideo(videoId, 0);
+                    }
+                });
+            } catch (JSONException e) {
+                Log.d("Inside catch", String.valueOf(e));
+                ImageView iv =(ImageView) findViewById(R.id.imageView);
+                Picasso.with(getApplicationContext()).load(poster).into(iv);
+                Toast.makeText(getApplicationContext(), "Showing Image", Toast.LENGTH_SHORT).show();
+                YouTubePlayerView yt=(YouTubePlayerView)findViewById(R.id.youtube_player_view);
+                yt.setVisibility(View.INVISIBLE);
+                e.printStackTrace();
+            }
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
@@ -286,6 +378,10 @@ public class Details extends AppCompatActivity {
 
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            if(response.length()==0){
+                TextView ct=(TextView)findViewById(R.id.textView8);
+                ct.setVisibility(View.INVISIBLE);
+            }
             clist.setAdapter(new CastAdapter(response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
@@ -306,12 +402,15 @@ public class Details extends AppCompatActivity {
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
+            if(response.length()==0){
+                TextView rvt=(TextView)findViewById(R.id.rvtext);
+                rvt.setVisibility(View.INVISIBLE);
+            }
             rlist.setAdapter(new ReviewAdapter(response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
     }
-
 
     public void getPicks(String id, String media){
         String url=baseurl+"/"+media+"recommended?id="+id;
@@ -322,6 +421,12 @@ public class Details extends AppCompatActivity {
 
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+
+            if(response.length()==0){
+                TextView rvt=(TextView)findViewById(R.id.picktext);
+                rvt.setVisibility(View.INVISIBLE);
+            }
+
             plist.setAdapter(new PicksAdapter(media,response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));

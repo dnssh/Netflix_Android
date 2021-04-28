@@ -16,6 +16,23 @@
     android:layout_marginTop="50dp"
         tools:context=".Details">
 
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateDrawable="@drawable/progressbar_color"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:textColor="@color/white"
+        android:id="@+id/fetching_text"
+        android:layout_below="@+id/progressBar1"
+        android:layout_centerHorizontal="true"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -38,8 +55,9 @@
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        app:videoId="S0Q4gqBUs7c"
+        app:videoId=""
         app:autoPlay="false"
+        app:enableAutomaticInitialization="true"
         app:showFullScreenButton="true" />
 
     <ImageView
@@ -74,7 +92,7 @@
 
     <com.borjabravo.readmoretextview.ReadMoreTextView
         android:id="@+id/textView3"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Overview content"
         app:trimLength="4"

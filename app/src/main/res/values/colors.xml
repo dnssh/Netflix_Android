@@ -10,5 +10,9 @@
     <color name="grey">#4d4d4d</color>
     <color name="blue">#007acc</color>
     <color name="steel">#0e1b25</color>
-    <color name="darksteel">#080c12</color>
+    <color name="darksteel">#0e1f25</color>
+<!--    <color name="darkersteel">#080c12</color>-->
+
+
+
 </resources>

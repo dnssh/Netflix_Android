@@ -16,6 +16,23 @@
 
     tools:context=".Details">
 
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateDrawable="@drawable/progressbar_color"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:textColor="@color/white"
+        android:id="@+id/fetching_text"
+        android:layout_below="@+id/progressBar1"
+        android:layout_centerHorizontal="true"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -51,7 +68,7 @@
         android:layout_height="20dp"
         android:text="Movies"
         android:textSize="15dp"
-        android:textColor="@color/blue"
+        android:textColor="@color/white"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="80dp"/>
@@ -62,7 +79,7 @@
         android:layout_height="20dp"
         android:text="TVShows"
         android:textSize="15dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/blue"
         android:layout_marginRight="15dp"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"/>

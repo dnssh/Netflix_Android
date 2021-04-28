@@ -83,6 +83,8 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove(id);
                 editor.commit();
+                notifyDataSetChanged();
+
                 Toast.makeText(context, "Removed from watchlist", Toast.LENGTH_SHORT).show();
                 Log.d("Removed",id);
 
