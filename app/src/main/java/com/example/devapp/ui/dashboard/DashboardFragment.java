@@ -91,6 +91,7 @@ public class DashboardFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+
                 return false;
             }
 

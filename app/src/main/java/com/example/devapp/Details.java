@@ -261,18 +261,27 @@ public class Details extends AppCompatActivity {
     private void removeBookmark(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         SharedPreferences.Editor editor = pref.edit();
-        String rmv=media.substring(0,1)+id;
-
         String wtchlst= pref.getString("wl",null);
+        String rmv=media.substring(0,1)+id+",";
 
-        List<String> allitems = Arrays.asList(wtchlst.split(","));
-        Log.d("List Format:", String.valueOf(allitems));
+        Log.d("remove logic",rmv);
 
-        allitems.remove(rmv);
-        wtchlst= TextUtils.join(",",allitems);
+        wtchlst=wtchlst.replace(rmv,"");
+
+//        List<String> allitems = Arrays.asList(wtchlst.split(","));
+//        Log.d("List Format:", String.valueOf(allitems));
+//
+//        allitems.remove(rmv);
+//        wtchlst= TextUtils.join(",",allitems);
         Log.d("Modified sp string",wtchlst);
         editor.putString("wl", wtchlst);
         editor.commit();
+        ImageView ib=(ImageView) findViewById(R.id.addwatch);
+        ImageView ir=(ImageView) findViewById(R.id.removewatch);
+        ib.setVisibility(View.VISIBLE);
+        ir.setVisibility(View.INVISIBLE);
+        //checkBookmark();
+
         Toast.makeText(getApplicationContext(), "Removed from watchlist", Toast.LENGTH_SHORT).show();
         Log.d("Removed",id);
     }
