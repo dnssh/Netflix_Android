@@ -141,7 +141,7 @@
         android:layout_height="35dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_baseline_remove_circle_outline_24"
-        android:onClick="addBookmark"
+        android:onClick="removeBookmark"
         tools:ignore="OnClick"
         android:layout_below="@id/textView7"
         android:layout_marginLeft="10dp"/>

@@ -40,13 +40,27 @@
         app:layout_constraintStart_toEndOf="@+id/search_view"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+        android:id="@+id/noresults"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="No Results Found."
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/searchlist"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
+        android:layout_marginBottom="100dp"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

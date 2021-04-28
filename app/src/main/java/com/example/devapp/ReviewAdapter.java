@@ -61,14 +61,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 //            String fdate=sdfr.format(newdate);
 
             String ln2="by "+name+" on "+date.substring(0,10);
-            String ln1=(Integer.parseInt(rating)/2)+"/5 ";
-
+            String ln1="";
+            try {
+                ln1 = (Integer.parseInt(rating) / 2) + "/5 ";
+            }
+            catch(NumberFormatException e)
+            {
+                System.out.print("NullPointerException Caught");
+            }
             holder.tv1.setText(ln2);
             holder.tv2.setText(ln1);
             holder.tv3.setText(content);
 
 
-
+            String finalLn = ln1;
             holder.cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,7 +82,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
                     Intent intent=new Intent(context.getApplicationContext(), ReviewPageActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("ln1",ln1);
+                    intent.putExtra("ln1", finalLn);
                     intent.putExtra("ln2",ln2);
                     intent.putExtra("ln3",content);
 

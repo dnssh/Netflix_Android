@@ -1,8 +1,10 @@
 package com.example.devapp.ui.home;
 
 import android.app.ActionBar;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +64,7 @@ public class HomeFragment extends Fragment {
 
         TextView tv1=(TextView) root.findViewById(R.id.movietab);
         TextView tv2=(TextView) root.findViewById(R.id.tvtab);
+        TextView th3=(TextView) root.findViewById(R.id.text_home3);
         media="movie";
 
         tv1.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +93,24 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
+        th3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url3 = "https://www.themoviedb.org/";
+                Intent i3 = new Intent(Intent.ACTION_VIEW, Uri.parse(url3));
+                i3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i3.setPackage("com.android.chrome");
+                try {
+                    getActivity().startActivity(i3);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "unable to open chrome", Toast.LENGTH_SHORT).show();
+                    i3.setPackage(null);
+                    getActivity().startActivity(i3);
+                }
+            }
+        });
+
 
         getSlider(root);
         getData1(root,"movie");

@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,11 +67,14 @@ public class Details extends AppCompatActivity {
         TextView tv5=(TextView) findViewById(R.id.textView5);
         TextView tv7=(TextView) findViewById(R.id.textView7);
         ImageView ib=(ImageView) findViewById(R.id.addwatch);
+        ImageView ir=(ImageView) findViewById(R.id.removewatch);
+        ImageView fb=(ImageView) findViewById(R.id.fb);
+        ImageView twt=(ImageView) findViewById(R.id.twitter);
 
         id= getIntent().getStringExtra("id");
         media=getIntent().getStringExtra("media");
 
-
+        checkBookmark();
         getDataV(id,media);
         getCast(id,media);
         getReviews(id,media);
@@ -78,6 +85,47 @@ public class Details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addBookmark();
+            }
+        });
+
+        ir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeBookmark();
+            }
+        });
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url2 = "https://facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/"+media+"/"+id;
+                Intent i2 = new Intent(Intent.ACTION_VIEW, Uri.parse(url2));
+                i2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i2.setPackage("com.android.chrome");
+                try {
+                    getBaseContext().startActivity(i2);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getBaseContext(), "unable to open chrome", Toast.LENGTH_SHORT).show();
+                    i2.setPackage(null);
+                    getBaseContext().startActivity(i2);
+                }
+            }
+        });
+
+        twt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url3 = "https://twitter.com/intent/tweet?text=https://www.themoviedb.org/"+media+"/"+id;
+                Intent i3 = new Intent(Intent.ACTION_VIEW, Uri.parse(url3));
+                i3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i3.setPackage("com.android.chrome");
+                try {
+                    getBaseContext().startActivity(i3);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getBaseContext(), "unable to open chrome", Toast.LENGTH_SHORT).show();
+                    i3.setPackage(null);
+                    getBaseContext().startActivity(i3);
+                }
             }
         });
 
@@ -144,6 +192,14 @@ public class Details extends AppCompatActivity {
             editor.putString(id, String.valueOf(list));
             editor.commit();
             Log.d("stored",id+":"+String.valueOf(list));
+            Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
+
+            ImageView ib=(ImageView) findViewById(R.id.addwatch);
+            ImageView ir=(ImageView) findViewById(R.id.removewatch);
+
+            ib.setVisibility(View.INVISIBLE);
+            ir.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -152,13 +208,31 @@ public class Details extends AppCompatActivity {
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(id);
         editor.commit();
+        ImageView ib=(ImageView) findViewById(R.id.addwatch);
+        ImageView ir=(ImageView) findViewById(R.id.removewatch);
+
+        ib.setVisibility(View.VISIBLE);
+        ir.setVisibility(View.INVISIBLE);
+        Toast.makeText(getApplicationContext(), "Removed from watchlist", Toast.LENGTH_SHORT).show();
         Log.d("Removed",id);
     }
 
     private boolean checkBookmark(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         boolean present=pref.contains(id);
+
+        ImageView ib=(ImageView) findViewById(R.id.addwatch);
+        ImageView ir=(ImageView) findViewById(R.id.removewatch);
+
         //Log.d("check", String.valueOf(present));
+        if(present==true){
+            ib.setVisibility(View.INVISIBLE);
+            ir.setVisibility(View.VISIBLE);
+        }
+        else{
+            ib.setVisibility(View.VISIBLE);
+            ir.setVisibility(View.INVISIBLE);
+        }
         return present;
 
     }
@@ -188,6 +262,7 @@ public class Details extends AppCompatActivity {
                     try {
                         videoId = response.getString("key");
                     } catch (JSONException e) {
+
                         e.printStackTrace();
                     }
                     youTubePlayer.loadVideo(videoId, 0);
@@ -230,6 +305,7 @@ public class Details extends AppCompatActivity {
 
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+
             rlist.setAdapter(new ReviewAdapter(response,getApplicationContext()));
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));

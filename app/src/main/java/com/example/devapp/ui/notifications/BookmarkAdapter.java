@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,6 +83,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove(id);
                 editor.commit();
+                Toast.makeText(context, "Removed from watchlist", Toast.LENGTH_SHORT).show();
                 Log.d("Removed",id);
 
             }

@@ -63,6 +63,8 @@ public class DashboardFragment extends Fragment {
         //final TextView textView = root.findViewById(R.id.text_dashboard);
 
         Log.d("finalList11", String.valueOf(items.size()));
+        TextView nr= (TextView) root.findViewById(R.id.noresults);
+        nr.setVisibility(View.INVISIBLE);
 
 
         //getSearchResults("Avenger");
@@ -101,75 +103,38 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    private void displayResults(JSONArray searchResults){
-        Log.d("finally here",String.valueOf(searchResults.length()));
-    }
 
-//    private void displayResults(){
-//        RecyclerView rv = findViewById(R.id.search_results);
-//        LinearLayoutManager llm = new LinearLayoutManager(this);
-//        rv.setLayoutManager(llm);
-//        articles = new ArrayList<>();
-//        if(searchResults.length() == 0){
-//            findViewById(R.id.no_results).setVisibility(View.VISIBLE);
-//            return ;
-//        }
-//        for(int i=0; i < searchResults.length(); i++){
-//            try {
-//                JSONObject article = searchResults.getJSONObject(i);
-//                String title = article.getString("webTitle");
-//                String articleId = article.getString("id");
-//                String section = article.getString("sectionName");
-//                String imageUrl;
-//                try{
-//                    imageUrl = article.getJSONObject("blocks").getJSONObject("main")
-//                            .getJSONArray("elements").getJSONObject(0)
-//                            .getJSONArray("assets").getJSONObject(0)
-//                            .getString("file");
-//                }
-//                catch (Exception e){
-//                    imageUrl = Constants.DEFAULT_IMAGE;
-//                }
-//                String webUrl = article.getString("webUrl");
-//                ZonedDateTime publicationDate = ZonedDateTime.
-//                        parse(article.getString("webPublicationDate")).
-//                        withZoneSameLocal(ZoneId.of("GMT"));
-//                articles.add(new NewsArticle(title,section, imageUrl,
-//                        articleId, publicationDate, webUrl));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        adapter = new HomePageAdapter(articles, this);
-//        rv.setAdapter(adapter);
-//        adapter.setClickListener(this);
-//    }
-//
     private  void displayResults() throws JSONException {
         Log.d("Display size : ", String.valueOf(searchResults.length()));
-        RecyclerView rv = root.findViewById(R.id.searchlist);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(llm);
+        TextView nr= (TextView) root.findViewById(R.id.noresults);
+        if(searchResults.length()==0) {
+                nr.setVisibility(View.VISIBLE);
+        } else{
+            nr.setVisibility(View.INVISIBLE);
+            RecyclerView rv = root.findViewById(R.id.searchlist);
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            rv.setLayoutManager(llm);
 
         //items = new ArrayList<>();
         items.clear();
 
-        for (int i=0;i<searchResults.length();i++){
-            id=searchResults.getJSONObject(i).getString("id");
+        for (int i = 0; i < searchResults.length(); i++) {
+            id = searchResults.getJSONObject(i).getString("id");
 
-            imgurl="https://image.tmdb.org/t/p/w780/"+searchResults.getJSONObject(i).getString("backdrop_path");
-            if(imgurl==null){imgurl="zxy";}
-            rating=searchResults.getJSONObject(i).getString("vote_average");
-
-            type=searchResults.getJSONObject(i).getString("media_type");
-
-            if(type.equals("movie")){
-                title=searchResults.getJSONObject(i).getString("title");
-                date=searchResults.getJSONObject(i).getString("release_date");
+            imgurl = "https://image.tmdb.org/t/p/w780/" + searchResults.getJSONObject(i).getString("backdrop_path");
+            if (imgurl == null) {
+                imgurl = "zxy";
             }
-            else{
-                title=searchResults.getJSONObject(i).getString("name");
-                date=searchResults.getJSONObject(i).getString("first_air_date");
+            rating = searchResults.getJSONObject(i).getString("vote_average");
+
+            type = searchResults.getJSONObject(i).getString("media_type");
+
+            if (type.equals("movie")) {
+                title = searchResults.getJSONObject(i).getString("title");
+                date = searchResults.getJSONObject(i).getString("release_date");
+            } else {
+                title = searchResults.getJSONObject(i).getString("name");
+                date = searchResults.getJSONObject(i).getString("first_air_date");
             }
 
 
@@ -180,9 +145,9 @@ public class DashboardFragment extends Fragment {
 //            if(date==null){date=searchResults.getJSONObject(i).getString("first_air_date");}
 
 
-            Log.d("ids", " id:"+id+" media:"+type+" title:"+title+" imgurl:"+imgurl+" date:"+date+" rating:"+rating);
+            Log.d("ids", " id:" + id + " media:" + type + " title:" + title + " imgurl:" + imgurl + " date:" + date + " rating:" + rating);
 
-            Movie mv=new Movie(id,type,imgurl,title,date,rating);
+            Movie mv = new Movie(id, type, imgurl, title, date, rating);
             mv.toMyString();
             items.add(mv);
         }
@@ -198,6 +163,7 @@ public class DashboardFragment extends Fragment {
 //            root.findViewById(R.id.no_results).setVisibility(View.VISIBLE);
 //            return ;
 //        }
+        } //else
     }
     private void getSearchResults(final String query) {
         String url = "https://angulardev-309412.ue.r.appspot.com/search?query="+query;
