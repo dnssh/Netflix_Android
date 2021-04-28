@@ -99,8 +99,19 @@
         app:trimMode="trimModeLine"
         android:textColor="@color/white"
         android:textSize="16dp"
-        android:layout_marginBottom="5dp"
-        android:layout_below="@id/textView2" />
+        android:layout_below="@id/textView2"/>
+
+<!--    <com.borjabravo.readmoretextview.ReadMoreTextView-->
+<!--        android:id="@+id/textView3"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Overview content"-->
+<!--        app:trimLength="4"-->
+<!--        app:trimMode="trimModeLine"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="16dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:layout_below="@id/textView2" />-->
 
     <TextView
         android:id="@+id/textView4"

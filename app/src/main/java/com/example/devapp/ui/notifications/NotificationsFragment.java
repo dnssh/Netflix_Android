@@ -2,6 +2,9 @@ package com.example.devapp.ui.notifications;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.example.devapp.ui.dashboard.SearchAdapter;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,7 @@ public class NotificationsFragment extends Fragment {
     //List<ArrayList<String>> watchlist = new ArrayList<ArrayList<String>>();
     List<ArrayList<String>> watchlist;
     ArrayList<String> item;
+    List<String> allitems;
     //ArrayList<String> item = new ArrayList<String>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,10 +64,18 @@ public class NotificationsFragment extends Fragment {
 
         //GridView list= (GridView) root.findViewById(R.id.watchlist);
         //list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        Log.d("finalList", String.valueOf(watchlist.size()));
-        RecyclerView.Adapter bkadapter=new BookmarkAdapter(watchlist,getContext());
+        Log.d("finalList", String.valueOf(allitems.size()));
+//        RecyclerView.Adapter bkadapter=new BookmarkAdapter(watchlist,getContext());
+        RecyclerView.Adapter bkadapter=new BookmarkAdapter(allitems,getContext());
         list.setAdapter(bkadapter);
         bkadapter.notifyDataSetChanged();
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            public void run() {
+                bkadapter.notifyDataSetChanged();
+            }
+        });
+
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(list);
@@ -84,9 +97,16 @@ public class NotificationsFragment extends Fragment {
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             int fromPosition= viewHolder.getAdapterPosition();
             int toPosition= target.getAdapterPosition();
-            Collections.swap(watchlist,fromPosition,toPosition);
+            Collections.swap(allitems,fromPosition,toPosition);
 
             recyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
+
+            SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
+            SharedPreferences.Editor editor = pref.edit();
+            String wtchlst= TextUtils.join(",",allitems);
+            Log.d("Modified sp string",wtchlst);
+            editor.putString("wl", wtchlst);
+            editor.commit();
             return false;
         }
 
@@ -96,7 +116,21 @@ public class NotificationsFragment extends Fragment {
         }
     };
 
+
     public void parsedata(){
+        //watchlist = new ArrayList<>();
+        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
+        //Map<String,?> keys = pref.getAll();
+
+        String wtchlst=pref.getString("wl",null);
+
+        Log.d("obtained string",wtchlst);
+        List<String> allitems =new ArrayList<>( Arrays.asList(wtchlst.split(",")));
+        Log.d("List Format:", String.valueOf(allitems));
+        this.allitems=allitems;
+    }
+
+    public void parsedataOld(){
         watchlist = new ArrayList<>();
         SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
         //Map<String,?> keys = pref.getAll();

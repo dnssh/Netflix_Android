@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +90,12 @@ public class Details extends AppCompatActivity {
                 ft.setVisibility(View.GONE);
             }
         }, 5000);
+
+
+//        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+//        SharedPreferences.Editor editor = pref.edit();
+//        editor.remove("wl");
+//        editor.commit();
 
         checkBookmark();
         getDataV(id,media);
@@ -210,7 +218,66 @@ public class Details extends AppCompatActivity {
         que.add(jsonRequest);
     }
 
+
+    private boolean checkBookmark(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        String wtchlst=pref.getString("wl","");
+        String chk=media.substring(0,1)+id;
+
+        Boolean present=wtchlst.contains(chk);
+
+        ImageView ib=(ImageView) findViewById(R.id.addwatch);
+        ImageView ir=(ImageView) findViewById(R.id.removewatch);
+
+        Log.d("check", String.valueOf(present));
+        if(present==true){
+            ib.setVisibility(View.INVISIBLE);
+            ir.setVisibility(View.VISIBLE);
+        }
+        else{
+            ib.setVisibility(View.VISIBLE);
+            ir.setVisibility(View.INVISIBLE);
+        }
+        return present;
+    }
+
+
     private void addBookmark(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        String newitem=media.substring(0,1)+id+",";
+        String wtchlst= pref.getString("wl","");
+        wtchlst=newitem+wtchlst;
+
+        if(!checkBookmark()) {
+            editor.putString("wl", wtchlst);
+            editor.commit();
+            Log.d("stored", wtchlst);
+            Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
+            checkBookmark();
+        }
+    }
+
+    private void removeBookmark(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        String rmv=media.substring(0,1)+id;
+
+        String wtchlst= pref.getString("wl",null);
+
+        List<String> allitems = Arrays.asList(wtchlst.split(","));
+        Log.d("List Format:", String.valueOf(allitems));
+
+        allitems.remove(rmv);
+        wtchlst= TextUtils.join(",",allitems);
+        Log.d("Modified sp string",wtchlst);
+        editor.putString("wl", wtchlst);
+        editor.commit();
+        Toast.makeText(getApplicationContext(), "Removed from watchlist", Toast.LENGTH_SHORT).show();
+        Log.d("Removed",id);
+    }
+
+    private void addBookmarkOld(){
         //items = new ArrayList<>();
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         SharedPreferences.Editor editor = pref.edit();
@@ -232,7 +299,7 @@ public class Details extends AppCompatActivity {
         }
     }
 
-    private void removeBookmark(){
+    private void removeBookmarkOld(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(id);
@@ -246,7 +313,7 @@ public class Details extends AppCompatActivity {
         Log.d("Removed",id);
     }
 
-    private boolean checkBookmark(){
+    private boolean checkBookmarkOld(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
         boolean present=pref.contains(id);
 

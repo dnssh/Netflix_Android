@@ -53,13 +53,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 <!--            android:layout_below="@+id/rating"-->
 <!--            android:text="Content" />-->
 
-        <com.borjabravo.readmoretextview.ReadMoreTextView
+        <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rating"
-            app:trimLength="3"
-            app:trimMode="trimModeLine"
+            android:ellipsize="end"
+            android:maxLines="3"
             android:text="Content"
             android:textColor="@color/white"
             android:textSize="16dp"/>

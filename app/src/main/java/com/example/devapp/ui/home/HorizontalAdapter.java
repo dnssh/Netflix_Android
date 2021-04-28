@@ -150,18 +150,33 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
                                     }
                                     return true;
 
+
                                 case R.id.addWatchlist:
                                     SharedPreferences pref =context.getSharedPreferences("bookmarks", 0);
-                                    if(!pref.contains(id)){
-                                        SharedPreferences.Editor editor = pref.edit();
-                                        List<String> list=new ArrayList<String>();
-                                        list.add(mtype.substring(0,1));
-                                        list.add(imgurl);
-                                        editor.putString(id, String.valueOf(list));
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    String wtchlst=pref.getString("wl","");
+                                    String chk=mtype.substring(0,1)+id+",";
+                                    if(!wtchlst.contains(chk)){
+                                        wtchlst=chk+wtchlst;
+                                        editor.putString("wl", wtchlst);
                                         editor.commit();
-                                        Log.d("stored",id+":"+String.valueOf(list));
-                                        Toast.makeText(context, "Added to Watchlist", Toast.LENGTH_SHORT).show();
+                                        Log.d("stored", wtchlst);
                                     }
+
+                                    Toast.makeText(context, "Added to watchlist", Toast.LENGTH_SHORT).show();
+
+//                                case R.id.addWatchlist:
+//                                    SharedPreferences pref =context.getSharedPreferences("bookmarks", 0);
+//                                    if(!pref.contains(id)){
+//                                        SharedPreferences.Editor editor = pref.edit();
+//                                        List<String> list=new ArrayList<String>();
+//                                        list.add(mtype.substring(0,1));
+//                                        list.add(imgurl);
+//                                        editor.putString(id, String.valueOf(list));
+//                                        editor.commit();
+//                                        Log.d("stored",id+":"+String.valueOf(list));
+//                                        Toast.makeText(context, "Added to Watchlist", Toast.LENGTH_SHORT).show();
+                                    //}
 
                                 default:
                                     return false;
