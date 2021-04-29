@@ -52,6 +52,8 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
         //final TextView textView = root.findViewById(R.id.text_notifications);
+
+
         //clear();
         parsedata(root);
 
@@ -62,7 +64,7 @@ public class NotificationsFragment extends Fragment {
 
         //GridView list= (GridView) root.findViewById(R.id.watchlist);
         //list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        Log.d("finalList", String.valueOf(allitems.size()));
+        //Log.d("finalList", String.valueOf(allitems.size()));
 //        RecyclerView.Adapter bkadapter=new BookmarkAdapter(watchlist,getContext());
         RecyclerView.Adapter bkadapter=new BookmarkAdapter(allitems,getContext());
         list.setAdapter(bkadapter);
@@ -99,6 +101,7 @@ public class NotificationsFragment extends Fragment {
             Collections.swap(allitems,fromPosition,toPosition);
 
             recyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
+            //recyclerView.getAdapter().notifyDataSetChanged();
 
             SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
             SharedPreferences.Editor editor = pref.edit();
@@ -123,6 +126,27 @@ public class NotificationsFragment extends Fragment {
     }
 
     public void parsedata(View root){
+        //watchlist = new ArrayList<>();
+        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
+        //Map<String,?> keys = pref.getAll();
+
+        String wtchlst=pref.getString("wl",null);
+        if(!wtchlst.trim().isEmpty()){
+            Log.d("obtained string",wtchlst);
+            allitems =new ArrayList<>( Arrays.asList(wtchlst.split(",")));
+            Log.d("List Format:", String.valueOf(allitems));
+            //this.allitems=allitems;
+            TextView nr= root.findViewById(R.id.noresults);
+            nr.setVisibility(View.INVISIBLE);
+        }
+        else{
+            allitems =new ArrayList<>();
+            //Log.d("Empty watchlist", String.valueOf(allitems.size()));
+            TextView nr= root.findViewById(R.id.noresults);
+            nr.setVisibility(View.VISIBLE);
+        }
+    }
+    public void parsedataOld(View root){
         //watchlist = new ArrayList<>();
         SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
         //Map<String,?> keys = pref.getAll();

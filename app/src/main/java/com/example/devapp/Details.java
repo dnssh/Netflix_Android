@@ -97,6 +97,7 @@ public class Details extends AppCompatActivity {
 //        editor.remove("wl");
 //        editor.commit();
 
+        //dummyadd();
         checkBookmark();
         getDataV(id,media);
         getCast(id,media);
@@ -251,6 +252,11 @@ public class Details extends AppCompatActivity {
         return present;
     }
 
+    private void dummyadd(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("wl", "m399566");
+    }
 
     private void addBookmark(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("bookmarks", 0);
