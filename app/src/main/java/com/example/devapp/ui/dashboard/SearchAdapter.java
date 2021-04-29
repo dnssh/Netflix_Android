@@ -58,7 +58,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         //holder.tv2.setText(items[position]);
         Movie item = items.get(position);
-        String year= item.type.toUpperCase()+" ("+item.date.substring(0,4)+")";
+        String year="";
+        if(item.date.length()>4){
+        year= item.type.toUpperCase()+" ("+item.date.substring(0,4)+")";}
         holder.tv1.setText(year);
         holder.tv2.setText(item.rating);
         holder.tv3.setText(item.title);

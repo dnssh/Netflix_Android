@@ -72,7 +72,13 @@ public class DashboardFragment extends Fragment {
         list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         //list.setAdapter(new SearchAdapter(titles,dates,getContext()));
         Log.d("finalList", String.valueOf(items.size()));
-        list.setAdapter(new SearchAdapter(items,getContext()));
+
+        //list.setAdapter(new SearchAdapter(items,getContext()));
+        RecyclerView.Adapter sadapter =new SearchAdapter(items,getContext());
+        list.setAdapter(sadapter);
+        sadapter.notifyDataSetChanged();
+
+
 
 
 //        EditText myTextBox = root.findViewById(R.id.search_view);
@@ -83,7 +89,14 @@ public class DashboardFragment extends Fragment {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CharSequence s =searchView.getQuery();
+                if(s.length()>0){
+                    getSearchResults(s.toString());
+                }
+                else{
+                    items.clear();
 
+                }
             }
         });
 
@@ -92,6 +105,7 @@ public class DashboardFragment extends Fragment {
             public boolean onQueryTextSubmit(String s) {
                 if(s.length()>0){
                     getSearchResults(s);
+
                 }
                 return true;
             }
@@ -100,8 +114,12 @@ public class DashboardFragment extends Fragment {
             public boolean onQueryTextChange(String s) {
                 //my code here for search
                 if(s.length()>0){
-
                     getSearchResults(s);
+                    sadapter.notifyDataSetChanged();
+                }
+                else{
+                    items.clear();
+                    sadapter.notifyDataSetChanged();
                 }
                 return true;
 
@@ -144,6 +162,7 @@ public class DashboardFragment extends Fragment {
         Log.d("Display size : ", String.valueOf(searchResults.length()));
         TextView nr= (TextView) root.findViewById(R.id.noresults);
         if(searchResults.length()==0) {
+                items.clear();
                 nr.setVisibility(View.VISIBLE);
         } else{
             nr.setVisibility(View.INVISIBLE);
