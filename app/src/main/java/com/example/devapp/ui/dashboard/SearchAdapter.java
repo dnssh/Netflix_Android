@@ -61,7 +61,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.tv1.setText(year);
         holder.tv2.setText(item.rating);
         holder.tv3.setText(item.title);
-        Picasso.with(context).load(item.imgurl).into(holder.iv);
+        if(!(item.imgurl.equals("") || item.imgurl.equals(null)))
+            Picasso.with(context).load(item.imgurl).into(holder.iv);
 
 
         holder.iv.setOnClickListener(new View.OnClickListener() {

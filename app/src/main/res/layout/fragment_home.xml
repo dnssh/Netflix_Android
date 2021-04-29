@@ -7,6 +7,8 @@
 <!--    android:layout_height="wrap_content"-->
 <!--    tools:context=".ui.home.HomeFragment">-->
 
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,6 +18,11 @@
 
     tools:context=".Details">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:id="@+id/loader"
+    android:visibility="visible"
+    android:layout_height="match_parent">
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
@@ -32,9 +39,61 @@
         android:id="@+id/fetching_text"
         android:layout_below="@+id/progressBar1"
         android:layout_centerHorizontal="true"/>
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rel"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/header1"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/ic_theaters_white_18dp"
+            android:id="@+id/logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            />
 
+        <TextView
+            android:id="@+id/uscfilms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/logo"
+            android:textSize="26dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:text="USC Films" />
+
+
+
+        <TextView
+            android:id="@+id/movietab"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:text="Movies"
+            android:textSize="15dp"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="80dp"/>
+
+        <TextView
+            android:id="@+id/tvtab"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:text="TVShows"
+            android:textSize="15dp"
+            android:textColor="@color/blue"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"/>
+    </RelativeLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
+        android:layout_below="@+id/header1"
         android:layout_height="wrap_content">
 
         <RelativeLayout
@@ -42,54 +101,12 @@
             android:layout_height="match_parent">
 
 
-    <ImageView
-        android:src="@drawable/ic_theaters_white_18dp"
-        android:id="@+id/logo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-            />
-
-    <TextView
-        android:id="@+id/uscfilms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/logo"
-        android:textSize="26dp"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:text="USC Films" />
-
-
-
-    <TextView
-        android:id="@+id/movietab"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:text="Movies"
-        android:textSize="15dp"
-        android:textColor="@color/white"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="80dp"/>
-
-    <TextView
-        android:id="@+id/tvtab"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:text="TVShows"
-        android:textSize="15dp"
-        android:textColor="@color/blue"
-        android:layout_marginRight="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"/>
 <!--    app:layout_constraintStart_toEndOf="@+id/movietab"-->
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_centerInParent="true"
         app:sliderAnimationDuration="600"
         app:sliderAutoCycleDirection="back_and_forth"
         app:sliderIndicatorAnimationDuration="600"
@@ -104,7 +121,7 @@
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/uscfilms"/>
+        />
 
 
     <TextView
@@ -167,8 +184,8 @@
         android:layout_below="@+id/text_home3"
         android:layout_marginBottom="70dp"/>
 
-
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </RelativeLayout>
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

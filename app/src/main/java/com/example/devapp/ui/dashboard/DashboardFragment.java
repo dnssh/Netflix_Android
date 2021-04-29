@@ -67,7 +67,6 @@ public class DashboardFragment extends Fragment {
         TextView nr= (TextView) root.findViewById(R.id.noresults);
         nr.setVisibility(View.INVISIBLE);
 
-
         //getSearchResults("Avenger");
         RecyclerView list=(RecyclerView) root.findViewById(R.id.searchlist);
         list.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -91,17 +90,25 @@ public class DashboardFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-
-                return false;
+                if(s.length()>0){
+                    getSearchResults(s);
+                }
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 //my code here for search
-                keyword=searchView.getQuery().toString();
-                Log.d("keyword",keyword);
-                getSearchResults(keyword);
-                return false;
+                if(s.length()>0){
+
+                    getSearchResults(s);
+                }
+                return true;
+
+//                keyword=searchView.getQuery().toString();
+//                Log.d("keyword",keyword);
+//                getSearchResults(keyword);
+//                return false;
             }
         });
 

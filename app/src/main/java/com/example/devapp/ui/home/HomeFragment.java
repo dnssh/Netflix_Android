@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +58,16 @@ public class HomeFragment extends Fragment {
     public String[] ids=new String[6];
     private String media,id,poster;
 
+    RelativeLayout rel,loader;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home1);
+
+        rel = root.findViewById(R.id.rel);
+        loader = root.findViewById(R.id.loader);
 
 
         TextView tv1=(TextView) root.findViewById(R.id.movietab);
@@ -73,11 +79,12 @@ public class HomeFragment extends Fragment {
         TextView ft;
         spinner =  root.findViewById(R.id.progressBar1);
         ft=root.findViewById(R.id.fetching_text);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                spinner.setVisibility(View.GONE);
-                ft.setVisibility(View.GONE);
+                rel.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.GONE);
             }
         }, 5000);
 
@@ -168,6 +175,8 @@ public class HomeFragment extends Fragment {
             //Log.d("RespArray",response.toString(4));
         }, error -> Log.e("Error", error.toString()));
         que.add(jsonRequest);
+//        rel.setVisibility(View.VISIBLE);
+//        loader.setVisibility(View.GONE);
     }
 
     public void getSlider(View root){

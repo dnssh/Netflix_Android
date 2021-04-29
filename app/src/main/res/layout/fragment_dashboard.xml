@@ -34,6 +34,7 @@
     <SearchView
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:theme="@style/SearchViewTheme"
         android:id="@+id/search_view"
         android:layout_marginHorizontal="0dp"
         android:layout_marginLeft="60dp"
@@ -41,8 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:maxLines="1"
         android:inputType="text"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
         app:searchIcon="@drawable/ic_baseline_search_24"
         app:queryBackground="@android:color/transparent"
         android:queryBackground="@android:color/transparent"
