@@ -5,16 +5,25 @@ public class SliderData {
 
         // image url is used to
         // store the url of image
-        private String imgUrl;
+        private String imgUrl,id,media;
 
         // Constructor method.
-        public SliderData(String imgUrl) {
+        public SliderData(String id,String media,String imgUrl) {
             this.imgUrl = imgUrl;
+            this.id = id;
+            this.media = media;
         }
 
         // Getter method
         public String getImgUrl() {
             return imgUrl;
+        }
+
+        public String getId() {
+            return id;
+        }
+        public String getMedia() {
+            return media;
         }
 
         // Setter method

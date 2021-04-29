@@ -27,13 +27,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/watchlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         />
+
+    <TextView
+        android:id="@+id/noresults"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Nothing Saved to Watchlist"
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:layout_below="@+id/watchlist"
+        android:textColor="@color/white" />
+
     </RelativeLayout>
+
     </androidx.core.widget.NestedScrollView>
 <!--    <GridView-->
 <!--        android:id="@+id/simpleGridView"-->

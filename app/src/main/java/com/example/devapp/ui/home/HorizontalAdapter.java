@@ -35,7 +35,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
     private Context context;
     private String[] items;
     private String[] ids;
-    private String mtype;
+    private String mtype,name;
     private JSONArray response;
 
     public HorizontalAdapter(String mtype,JSONArray response, Context context) {
@@ -69,8 +69,14 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
         //Log.d("Slider ", position + " " + ids[position]);
         try {
             String id=response.getJSONObject(position).getString("id");
+            if(mtype.equals("movie")){
+                name=response.getJSONObject(position).getString("title");}
+            else{
+                name=response.getJSONObject(position).getString("name");
+            }
             String imgurl="https://image.tmdb.org/t/p/w780/"+response.getJSONObject(position).getString("poster_path");
             Log.d("image url",imgurl);
+
             Picasso.with(context).load(imgurl).into(holder.iv);
 
 
@@ -162,8 +168,9 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
                                         editor.commit();
                                         Log.d("stored", wtchlst);
                                     }
-
-                                    Toast.makeText(context, "Added to watchlist", Toast.LENGTH_SHORT).show();
+                                    String msg=name+" was added to Watchlist";
+                                    Log.d("Toast",msg);
+                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 
 //                                case R.id.addWatchlist:
 //                                    SharedPreferences pref =context.getSharedPreferences("bookmarks", 0);

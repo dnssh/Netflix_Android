@@ -12,6 +12,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devapp.Details;
@@ -57,13 +58,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         //holder.tv2.setText(items[position]);
         Movie item = items.get(position);
-        String year= item.type+" ("+item.date.substring(0,4)+")";
+        String year= item.type.toUpperCase()+" ("+item.date.substring(0,4)+")";
         holder.tv1.setText(year);
         holder.tv2.setText(item.rating);
         holder.tv3.setText(item.title);
-        if(!(item.imgurl.equals("") || item.imgurl.equals(null)))
-            Picasso.with(context).load(item.imgurl).into(holder.iv);
-
+//        if(!(item.imgurl.equals("") || item.imgurl.equals(null)|| item.imgurl.length()<40))
+        if(item.imgurl.length()>40){
+            Picasso.with(context).load(item.imgurl).into(holder.iv);}
+        else{
+            holder.iv.setBackground(ContextCompat.getDrawable(context, R.drawable.backdrop_path_placeholder));
+        }
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override

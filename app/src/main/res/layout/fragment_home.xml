@@ -106,7 +106,7 @@
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="350dp"
         app:sliderAnimationDuration="600"
         app:sliderAutoCycleDirection="back_and_forth"
         app:sliderIndicatorAnimationDuration="600"
@@ -120,7 +120,7 @@
         app:sliderIndicatorSelectedColor="#5A5A5A"
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         />
 
 

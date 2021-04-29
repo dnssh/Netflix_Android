@@ -56,7 +56,7 @@ public class Details extends AppCompatActivity {
     private static JSONArray jsonArray;
 
     public String[] urls,names;
-    String id,media,poster;
+    String id,media,poster,title;
     List<ArrayList<String>> castlist;
 
 
@@ -159,6 +159,7 @@ public class Details extends AppCompatActivity {
 
     public void getDataV(String id, String media) {
 
+
         String url=baseurl+"/"+media+"details?id="+id;
         RequestQueue que = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -174,9 +175,18 @@ public class Details extends AppCompatActivity {
 //                    jsonArray.put(jsonObject);
 //                }
                 this.poster="https://image.tmdb.org/t/p/w780/"+response.getString("backdrop_path");
-                String overview=response.getString("overview");
-                String title=response.getString("title");
-                String year=response.getString("release_date");
+                String overview,year;
+
+                if(media.equals("movie")) {
+                    title = response.getString("title");
+                    year=response.getString("release_date");
+                }
+                else{
+                    title = response.getString("name");
+                    year=response.getString("first_air_date");
+                }
+
+                overview = response.getString("overview");
                 String gstr="";
                 jsonArray = new JSONArray();
                 jsonArray=response.getJSONArray("genres");
@@ -251,9 +261,10 @@ public class Details extends AppCompatActivity {
 
         if(!checkBookmark()) {
             editor.putString("wl", wtchlst);
+            //editor.putString("wl", "m399566");
             editor.commit();
             Log.d("stored", wtchlst);
-            Toast.makeText(getApplicationContext(), "Added to watchlist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), title +" was added to Watchlist", Toast.LENGTH_SHORT).show();
             checkBookmark();
         }
     }
@@ -282,7 +293,7 @@ public class Details extends AppCompatActivity {
         ir.setVisibility(View.INVISIBLE);
         //checkBookmark();
 
-        Toast.makeText(getApplicationContext(), "Removed from watchlist", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), title+" was removed from Watchlist", Toast.LENGTH_SHORT).show();
         Log.d("Removed",id);
     }
 
@@ -498,8 +509,10 @@ public class Details extends AppCompatActivity {
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonRequest=new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
-            if(response.length()==0){
+            if(response==null||response.length()==0){
                 TextView rvt=(TextView)findViewById(R.id.picktext);
+                RecyclerView rvc=findViewById(R.id.pickslist);
+                rvc.setVisibility(View.INVISIBLE);
                 rvt.setVisibility(View.INVISIBLE);
             }
 

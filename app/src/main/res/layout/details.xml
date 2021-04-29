@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:scrollHorizontally="true"
-        android:text="Overview content"
+        android:text="Sam wilson and Buky team up in a global adventure."
         app:trimLength="168"
         app:trimMode="trimModeLength"
         app:showTrimExpandedText="false"
@@ -130,7 +130,7 @@
         android:id="@+id/textView5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Genre content"
+        android:text="Action, Adventure, Politics"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:layout_marginBottom="5dp"
@@ -165,7 +165,7 @@
         android:onClick="addBookmark"
         tools:ignore="OnClick"
         android:layout_below="@id/textView7"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="7dp"/>
 
     <ImageView
         android:id="@+id/removewatch"
@@ -176,7 +176,7 @@
         android:onClick="removeBookmark"
         tools:ignore="OnClick"
         android:layout_below="@id/textView7"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="7dp"/>
 
     <ImageView
         android:id="@+id/fb"

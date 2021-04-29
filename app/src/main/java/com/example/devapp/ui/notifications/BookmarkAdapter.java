@@ -45,7 +45,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     private Context context;
     //private String[] items;
     private String[] ids;
-    private String mediatype;
+    private String mediatype,name;
     private List<String> items;
     private Map<String,?> keys;
     private List<ArrayList<String>> watchlist;
@@ -92,11 +92,20 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, response -> {
             try {
+
                 String imgurl="https://image.tmdb.org/t/p/w780/"+response.getString("backdrop_path");
+
                 imgurl=imgurl.trim();
                 Picasso.with(context).load(imgurl).into(holder.iv);
-                holder.tv1.setText(media);
+                holder.tv1.setText(media.toUpperCase());
                 Log.d("image url",imgurl);
+
+
+                if(media.equals("movie")){
+                    name=response.getString("title");}
+                else{
+                    name=response.getString("name");
+                }
 
 
             } catch (JSONException e) {
@@ -138,7 +147,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 Log.d("Modified sp string",wtchlst);
                 editor.putString("wl", wtchlst);
                 editor.commit();
-                Toast.makeText(context, "Removed from watchlist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, name+" was removed from Watchlist", Toast.LENGTH_SHORT).show();
                 Log.d("Removed",id);
 
 

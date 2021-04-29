@@ -198,8 +198,10 @@ public class HomeFragment extends Fragment {
             try {
                 for(int i=0;i<6;i++){
                     String lnk="https://image.tmdb.org/t/p/w780/"+response.getJSONObject(i).getString("poster_path");
+                    String id=response.getJSONObject(i).getString("id");
 
-                    sliderDataArrayList.add(new SliderData(lnk));
+
+                    sliderDataArrayList.add(new SliderData(id,media,lnk));
                 }
 
                 SliderView sliderView = root.findViewById(R.id.slider);

@@ -52,10 +52,8 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
         //final TextView textView = root.findViewById(R.id.text_notifications);
-
-        parsedata();
-
-        //ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.watchlist,R.id.textView,StringArray);
+        //clear();
+        parsedata(root);
 
         RecyclerView list=(RecyclerView) root.findViewById(R.id.watchlist);
 
@@ -72,6 +70,7 @@ public class NotificationsFragment extends Fragment {
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             public void run() {
+                parsedata(root);
                 bkadapter.notifyDataSetChanged();
             }
         });
@@ -116,8 +115,14 @@ public class NotificationsFragment extends Fragment {
         }
     };
 
+    public void clear(){
+        SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+    }
 
-    public void parsedata(){
+    public void parsedata(View root){
         //watchlist = new ArrayList<>();
         SharedPreferences pref = getContext().getSharedPreferences("bookmarks", 0);
         //Map<String,?> keys = pref.getAll();
@@ -128,6 +133,13 @@ public class NotificationsFragment extends Fragment {
         List<String> allitems =new ArrayList<>( Arrays.asList(wtchlst.split(",")));
         Log.d("List Format:", String.valueOf(allitems));
         this.allitems=allitems;
+        TextView nr= root.findViewById(R.id.noresults);
+        if(allitems.size()==0){
+            nr.setVisibility(View.VISIBLE);
+        }
+        else{
+            nr.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void parsedataOld(){

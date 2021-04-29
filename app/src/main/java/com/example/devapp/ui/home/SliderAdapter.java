@@ -56,19 +56,19 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
 
 
 
-//        viewHolder.blurImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("click", "onClick: Clicked on an image");
-//                Intent intent=new Intent(context, Details.class);
-//                intent.putExtra("id",id);
-//                intent.putExtra("media",mtype);
-//
-//                context.startActivity(intent);
-//
-//                //Toast.makeText(context, "clicked on an image", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        viewHolder.imageViewBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("click", "onClick: Clicked on an image");
+                Intent intent=new Intent(context, Details.class);
+                intent.putExtra("id",sliderItem.getId());
+                intent.putExtra("media",sliderItem.getMedia());
+
+                context.startActivity(intent);
+
+                //Toast.makeText(context, "clicked on an image", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
