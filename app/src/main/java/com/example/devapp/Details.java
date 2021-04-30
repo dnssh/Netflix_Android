@@ -56,7 +56,7 @@ public class Details extends AppCompatActivity {
     private static JSONArray jsonArray;
 
     public String[] urls,names;
-    String id,media,poster,title;
+    String id,media,poster,title,videoId;
     List<ArrayList<String>> castlist;
 
 
@@ -357,6 +357,39 @@ public class Details extends AppCompatActivity {
         }
         return present;
 
+    }
+
+    public void getVideoW(String id, String media){
+        String url=baseurl+"/"+media+"video?id="+id;
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
+
+        RequestQueue que = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                videoId = response.getString("key");
+                Log.d("VideoId",videoId);
+                youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                    @Override
+                    public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                        youTubePlayer.cueVideo(videoId, 0);
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+//                YouTubePlayerView yv= findViewById(R.id.youtube_player_view);
+                youTubePlayerView.setVisibility(View.GONE);
+
+                ImageView iv= findViewById(R.id.imageView);
+                Log.d("ImageId",poster);
+                Picasso.with(getApplicationContext()).load(poster).into(iv);
+            }
+
+            //clist.setAdapter(new CastAdapter(response,getApplicationContext()));
+            //Log.d("RespArray",response.toString(4));
+        }, error -> Log.e("Error", error.toString()));
+        que.add(jsonRequest);
     }
 
 
